@@ -9,11 +9,10 @@ namespace LookClosely_Original.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) { }
 
-        public DbSet<Level> Levels { get; set; }
-        public DbSet<Score> Scores { get; set; }
-    }
+        public DbSet<Level> Levels { get; set; } = null!;
+        public DbSet<Score> Scores { get; set; } = null!;
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
