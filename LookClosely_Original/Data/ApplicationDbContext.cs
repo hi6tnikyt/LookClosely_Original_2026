@@ -12,4 +12,34 @@ namespace LookClosely_Original.Data
         public DbSet<Level> Levels { get; set; }
         public DbSet<Score> Scores { get; set; }
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Level>().HasData(
+                new Level
+                {
+                    Id = 1,
+                    Name = "Стаята на детектива",
+                    Difficulty = "Easy",
+                    ImagePath = "/images/levels/level1.jpg"
+                },
+                new Level
+                {
+                    Id = 2,
+                    Name = "Изоставената библиотека",
+                    Difficulty = "Medium",
+                    ImagePath = "/images/levels/level2.jpg"
+                },
+                new Level
+                {
+                    Id = 3,
+                    Name = "Тайното мазе",
+                    Difficulty = "Hard",
+                    ImagePath = "/images/levels/level3.jpg"
+                }
+            );
+        }
+    }
 }

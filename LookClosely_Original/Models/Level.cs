@@ -9,16 +9,17 @@ namespace LookClosely.Models
         [Key]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Името на нивото е задължително")]
         [MaxLength(NameMaxLength)]
+        [Required(ErrorMessage = "Името е задължително!")]
         public string Name { get; set; } = null!;
 
         [Required]
-        public string ImagePath { get; set; } = null!;
+        public string Difficulty { get; set; } = null!;
 
-        [Range(1, 10)]
-        public int Difficulty { get; set; }
+        [Required(ErrorMessage = "Снимката е задължителна!")]
+        public string? ImagePath { get; set; }
 
-        public virtual ICollection<Score> Scores { get; set; } = new List<Score>();
+        public ICollection<Score> Scores { get; set; }
+              = new List<Score>();
     }
 }
