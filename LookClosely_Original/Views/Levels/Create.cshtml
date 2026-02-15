@@ -1,0 +1,51 @@
+﻿@model LookClosely_Original.ViewModels.LevelViewModel
+
+@{
+    ViewData["Title"] = "Добави Ниво";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 shadow p-4 rounded bg-light">
+            <h2 class="text-center mb-4">🆕 Създай Ново Ниво</h2>
+
+            <form asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Име на мисията</label>
+                    <input asp-for="Name" class="form-control" placeholder="напр. Изгубената стая" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Difficulty" class="form-label">Трудност</label>
+                    <select asp-for="Difficulty" class="form-select">
+                        <option value="">-- Избери трудност --</option>
+                        <option value="Лесно">Лесно</option>
+                        <option value="Средно">Средно</option>
+                        <option value="Трудно">Трудно</option>
+                    </select>
+                    <span asp-validation-for="Difficulty" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ImagePath" class="form-label">Път към снимката</label>
+                    <input asp-for="ImagePath" class="form-control" placeholder="/images/levels/level1.jpg" />
+                    <span asp-validation-for="ImagePath" class="text-danger"></span>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success">🚀 Запази Нивото</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Назад към списъка</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+}

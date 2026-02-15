@@ -1,33 +1,38 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LookClosely_Original.Data;
-using LookClosely_Original.LookCloselyViewModels.Event;
+using LookClosely_Original.LookCloselyViewModels;
 
-public class ScoresController : Controller
+
+namespace LookClosely_Original.Controllers
 {
-    private readonly ApplicationDbContext _context;
-
-    public ScoresController(ApplicationDbContext context)
+    public class ScoresController : Controller
     {
-        _context = context;
-    }
+        private readonly ApplicationDbContext dbContext;
 
-    public async Task<IActionResult> Leaderboard()
-    {
-        var topScores = await _context.Scores
-            .Include(s => s.User)
-            .Include(s => s.Level)
-            .OrderByDescending(s => s.Points)
-            .Take(10)
-            .Select(s => new ScoreViewModel 
-            {
-                UserName = s.User.UserName!,
-                LevelName = s.Level.Name,
-                Points = s.Points,
-                DateAchieved = s.DateTime.ToString("dd.MM.yyyy")
-            })
-            .ToListAsync();
+        public ScoresController(ApplicationDbContext context)
+        {
+            dbContext = context;
+        }
 
-        return View(topScores);
+        public async Task<IActionResult> Leaderboard()
+        {
+            var topScores = await dbContext
+                .Scores
+                .Include(s => s.User)
+                .Include(s => s.Level)
+                .OrderByDescending(s => s.Points)
+                .Take(10)
+                .Select(s => new ScoreViewModel
+                {
+                    UserName = s.User.UserName!,
+                    LevelName = s.Level.Name,
+                    Points = s.Points,
+                    DateTime = s.DateTime
+                })
+                .ToListAsync();
+
+            return View(topScores);
+        }
     }
 }

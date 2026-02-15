@@ -10,19 +10,20 @@ using LookClosely_Original.LookCloselyViewModels.Event;
 [Authorize]
 public class ProfileController : Controller
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly ApplicationDbContext _context;
+    private readonly UserManager<ApplicationUser> userManager;
+    private readonly ApplicationDbContext dbContext;
 
     public ProfileController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
     {
-        _userManager = userManager;
-        _context = context;
+        this.userManager = userManager;
+        this.dbContext = context;
     }
 
     public async Task<IActionResult> Index()
     {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var user = await _userManager.Users
+        String? userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        ApplicationUser? user = await userManager
+            .Users
             .Include(u => u.Scores)
             .ThenInclude(s => s.Level)
             .FirstOrDefaultAsync(u => u.Id == userId);
@@ -32,16 +33,19 @@ public class ProfileController : Controller
         return View(user);
     }
 
-    // Показва формата за редакция
     [HttpGet]
     public async Task<IActionResult> Edit()
     {
-        var userId = _userManager.GetUserId(User);
-        var user = await _userManager.FindByIdAsync(userId!);
+        String? userId = userManager.GetUserId(User);
+        ApplicationUser? user = await userManager
+            .FindByIdAsync(userId!);
 
-        if (user == null) return NotFound();
+        if (user == null)
+        {
+            return NotFound();
+        }
 
-        var model = new EditProfileViewModel
+        EditProfileViewModel? model = new EditProfileViewModel
         {
             Bio = user.Bio,
             CurrentAvatarPath = user.AvatarPath
@@ -53,8 +57,13 @@ public class ProfileController : Controller
     [HttpPost]
     public async Task<IActionResult> Edit(EditProfileViewModel model)
     {
-        var user = await _userManager.GetUserAsync(User);
-        if (user == null) return NotFound();
+        ApplicationUser? user = await userManager
+            .GetUserAsync(User);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
 
         if (ModelState.IsValid)
         {
@@ -73,7 +82,7 @@ public class ProfileController : Controller
 
             user.Bio = model.Bio;
 
-            var result = await _userManager.UpdateAsync(user);
+            var result = await userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
                 return RedirectToAction("Index");

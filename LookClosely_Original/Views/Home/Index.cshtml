@@ -1,8 +1,37 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Начало";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="main-wrapper">
+    <div class="hero-section text-center shadow-lg">
+        <h1 class="mb-3">LookClosely</h1>
+
+        <p class="lead mb-4 fs-4 px-3" style="max-width: 700px;">
+            Твоята наблюдателност е твоето най-силно оръжие. <br />
+            Открий скритите детайли и победи!
+        </p>
+
+        <div class="mt-2">
+            <a asp-controller="Levels" asp-action="Index" class="btn btn-primary btn-lg px-5 shadow me-md-2">ЗАПОЧНИ ИГРА</a>
+            <a asp-controller="Scores" asp-action="Leaderboard" class="btn btn-outline-light btn-lg px-4 shadow">КЛАСАЦИЯ</a>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row text-center">
+        <div class="col-md-4">
+            <h3>🔍 Търси</h3>
+            <p>Намери скритите обекти в красиви картини.</p>
+        </div>
+        <div class="col-md-4">
+            <h3>⏱️ Бързай</h3>
+            <p>Времето е важно за твоя висок резултат.</p>
+        </div>
+        <div class="col-md-4">
+            <h3>🏆 Печели</h3>
+            <p>Влез в топ класацията на най-добрите играчи.</p>
+        </div>
+    </div>
 </div>

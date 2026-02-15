@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static System.Formats.Asn1.AsnWriter;
 using static LookClosely_Original.Common.EntityValidationConstants.Level;
 
 namespace LookClosely.Models

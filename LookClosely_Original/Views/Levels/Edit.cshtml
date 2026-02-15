@@ -1,0 +1,50 @@
+﻿@model LookClosely_Original.ViewModels.LevelViewModel
+
+@{
+    ViewData["Title"] = "Редактирай Ниво";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 shadow p-4 rounded bg-white border-warning border-top border-5">
+            <h2 class="text-center mb-4">✏️ Редактиране на: @Model.Name</h2>
+
+            <form asp-action="Edit" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Име на мисията</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Трудност</label>
+                    <select asp-for="Difficulty" class="form-select">
+                        <option value="Лесно">Лесно</option>
+                        <option value="Средно">Средно</option>
+                        <option value="Трудно">Трудно</option>
+                    </select>
+                    <span asp-validation-for="Difficulty" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Път към снимката</label>
+                    <input asp-for="ImagePath" class="form-control" />
+                    <span asp-validation-for="ImagePath" class="text-danger"></span>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-warning fw-bold">Запази промените</button>
+                    <a asp-action="Index" class="btn btn-outline-secondary">Отказ</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+}

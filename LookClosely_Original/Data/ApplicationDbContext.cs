@@ -43,6 +43,12 @@ namespace LookClosely_Original.Data
                     ImagePath = "/images/levels/level3.jpg"
                 }
             );
+                modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
+            {
+                    Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
+                    Name = "Admin",
+                    NormalizedName = "ADMIN"
+            });
         }
     }
 }

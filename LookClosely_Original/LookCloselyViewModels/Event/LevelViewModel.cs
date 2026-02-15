@@ -13,5 +13,7 @@ namespace LookClosely_Original.ViewModels
 
         [Required(ErrorMessage = "Снимката е задължителна.")]
         public string ImagePath { get; set; } = null!;
+
+        public string? Difficulty { get; set; }
     }
 }
