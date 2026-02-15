@@ -11,6 +11,7 @@ namespace LookClosely.Models
         public int Id { get; set; }
 
         [Required]
+        [Range(MinPoints, MaxPoints)]
         public int Points { get; set; }
 
         [Required]

@@ -49,6 +49,18 @@ namespace LookClosely_Original.Data
                     Name = "Admin",
                     NormalizedName = "ADMIN"
             });
+
+                modelBuilder.Entity<Score>()
+                    .HasOne(s => s.User)
+                    .WithMany() // Или .WithMany(u => u.Scores) 
+                    .HasForeignKey(s => s.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                modelBuilder.Entity<Score>()
+                    .HasOne(s => s.Level)
+                    .WithMany()
+                    .HasForeignKey(s => s.LevelId)
+                    .OnDelete(DeleteBehavior.Restrict); 
         }
     }
 }
