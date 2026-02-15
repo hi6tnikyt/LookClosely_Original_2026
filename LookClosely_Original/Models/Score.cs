@@ -11,7 +11,6 @@ namespace LookClosely.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(MaxPoints)]
         public int Points { get; set; }
 
         [Required]
@@ -20,7 +19,7 @@ namespace LookClosely.Models
         [Required]
         public string UserId { get; set; } = null!;
         [ForeignKey("UserId")]
-        public virtual IdentityUser User { get; set; } = null!;
+        public virtual ApplicationUser User { get; set; } = null!;
 
         [Required]
         public int LevelId { get; set; }

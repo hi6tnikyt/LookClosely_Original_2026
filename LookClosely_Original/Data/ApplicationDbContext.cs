@@ -1,16 +1,20 @@
-﻿using LookClosely.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using LookClosely.Models;
 
 namespace LookClosely_Original.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext
+        : IdentityDbContext<ApplicationUser, IdentityRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options) { }
+            : base(options)
+        {
+        }
 
-        public DbSet<Level> Levels { get; set; } = null!;
-        public DbSet<Score> Scores { get; set; } = null!;
+        public virtual DbSet<Level> Levels { get; set; } = null!;
+        public virtual DbSet<Score> Scores { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -22,7 +26,7 @@ namespace LookClosely_Original.Data
                     Id = 1,
                     Name = "Стаята на детектива",
                     Difficulty = "Easy",
-                    ImagePath = "/images/levels/level1.jpg"
+                    ImagePath = "/images/levels/level1.webp"
                 },
                 new Level
                 {

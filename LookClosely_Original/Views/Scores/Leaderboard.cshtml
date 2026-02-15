@@ -1,0 +1,32 @@
+﻿@using LookClosely_Original.LookCloselyViewModels.Event
+@model IEnumerable<ScoreViewModel>
+
+@{
+    ViewData["Title"] = "Класация";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">🏆 Топ Детективи</h1>
+
+    <table class="table table-hover shadow">
+        <thead class="table-dark">
+            <tr>
+                <th>Играч</th>
+                <th>Ниво</th>
+                <th>Точки</th>
+                <th>Дата</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var score in Model)
+            {
+                <tr>
+                    <td>@score.UserName</td>
+                    <td>@score.LevelName</td>
+                    <td class="fw-bold text-primary">@score.Points</td>
+                    <td>@score.DateAchieved</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,24 @@
+﻿@model IEnumerable<LookClosely.Models.Level>
+
+@{
+    ViewData["Title"] = "Избери ниво";
+}
+
+<h1 class="text-center my-4">Избери своето предизвикателство</h1>
+
+<div class="row">
+    @foreach (var level in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="@level.ImagePath" class="card-img-top" alt="@level.Name" style="height: 200px; object-fit: cover;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">@level.Name</h5>
+                    <p class="badge bg-info">@level.Difficulty</p>
+                    <br />
+                    <a asp-action="Details" asp-route-id="@level.Id" class="btn btn-primary mt-2">Играй сега</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

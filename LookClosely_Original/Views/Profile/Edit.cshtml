@@ -1,0 +1,26 @@
+﻿@using LookClosely_Original.LookCloselyViewModels.Event
+@model EditProfileViewModel
+
+<div class="container mt-5">
+    <h2>Редактирай моя профил</h2>
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3 text-center">
+                    <img src="@Model.CurrentAvatarPath" class="rounded-circle mb-2" style="width: 100px; height: 100px; object-fit: cover;">
+                    <br />
+                    <label asp-for="AvatarFile" class="form-label">Смени снимката</label>
+                    <input asp-for="AvatarFile" class="form-control" type="file" accept="image/*" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Bio" class="form-label">Биография</label>
+                    <textarea asp-for="Bio" class="form-control" rows="4"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-success">Запази промените</button>
+                <a asp-action="Index" class="btn btn-secondary">Отказ</a>
+            </div>
+        </div>
+    </form>
+</div>

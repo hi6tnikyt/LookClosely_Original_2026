@@ -16,6 +16,6 @@ namespace LookClosely.Models
         [MaxLength(BioMaxLength)]
         public string? Bio { get; set; }
 
-        public ICollection<Score> Scores { get; set; } = new List<Score>();
+        public virtual ICollection<Score> Scores { get; set; } = new List<Score>();
     }
 }
