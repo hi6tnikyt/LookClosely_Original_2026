@@ -1,4 +1,4 @@
-﻿namespace LookClosely_Original.Common
+﻿namespace LookClosely_Original.GCommon
 {
     public static class EntityValidationConstants
     {

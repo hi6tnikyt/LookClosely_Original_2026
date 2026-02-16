@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static LookClosely_Original.Common.EntityValidationConstants.ApplicationUser;
-
+using static LookClosely_Original.GCommon.EntityValidationConstants.ApplicationUser;
+using Microsoft.AspNetCore.Http;
 
 namespace LookClosely_Original.LookCloselyViewModels.Event
 {

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using LookClosely_Original.ViewModels;
-using static LookClosely_Original.Common.EntityValidationConstants.Level;
-using static LookClosely_Original.Common.EntityValidationConstants.ApplicationUser;
+using static LookClosely_Original.GCommon.EntityValidationConstants.Level;
+using static LookClosely_Original.GCommon.EntityValidationConstants.ApplicationUser;
 
 namespace LookClosely_Original.LookCloselyViewModels.Event
 {

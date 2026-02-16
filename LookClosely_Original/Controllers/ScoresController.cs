@@ -1,37 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LookClosely_Original.Data;
-using LookClosely_Original.LookCloselyViewModels;
+using LookClosely_Original.Services.Core.Interfaces;
 
 
 namespace LookClosely_Original.Controllers
 {
     public class ScoresController : Controller
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly IScoreService scoreService;
 
-        public ScoresController(ApplicationDbContext context)
+        public ScoresController(IScoreService scoreService)
         {
-            dbContext = context;
+            this.scoreService = scoreService;
         }
 
         public async Task<IActionResult> Leaderboard()
         {
-            var topScores = await dbContext
-                .Scores
-                .Include(s => s.User)
-                .Include(s => s.Level)
-                .OrderByDescending(s => s.Points)
-                .Take(10)
-                .Select(s => new ScoreViewModel
-                {
-                    UserName = s.User.UserName!,
-                    LevelName = s.Level.Name,
-                    Points = s.Points,
-                    DateTime = s.DateTime
-                })
-                .ToListAsync();
-
+            var topScores = await scoreService.GetTopScoresAsync(10);
             return View(topScores);
         }
     }

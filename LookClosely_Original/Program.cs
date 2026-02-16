@@ -2,6 +2,8 @@ using LookClosely.Models;
 using LookClosely_Original.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using LookClosely_Original.Services.Core.Interfaces;
+using LookClosely_Original.Services.Core;
 
 namespace LookClosely_Original
 {
@@ -17,6 +19,10 @@ namespace LookClosely_Original
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+            builder.Services.AddScoped<ILevelService, LevelService>();
+            builder.Services.AddScoped<IScoreService, ScoreService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+
             builder.Services.AddDefaultIdentity<ApplicationUser>(options => 
             {
                 options.SignIn.RequireConfirmedAccount = false;
@@ -26,6 +32,7 @@ namespace LookClosely_Original
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
             })
+                
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>(); 
 

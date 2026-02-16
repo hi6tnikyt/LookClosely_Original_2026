@@ -20,4 +20,12 @@
     <Folder Include="wwwroot\images\avatars\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LookClosely_Original.Data.Models\LookClosely_Original.Data.Models.csproj" />
+    <ProjectReference Include="..\LookClosely_Original.Data\LookClosely_Original.Data.csproj" />
+    <ProjectReference Include="..\LookClosely_Original.GCommon\LookClosely_Original.GCommon.csproj" />
+    <ProjectReference Include="..\LookClosely_Original.Services.Core\LookClosely_Original.Services.Core.csproj" />
+    <ProjectReference Include="..\LookClosely_Original.ViewModels\LookClosely_Original.ViewModels.csproj" />
+  </ItemGroup>
+
 </Project>

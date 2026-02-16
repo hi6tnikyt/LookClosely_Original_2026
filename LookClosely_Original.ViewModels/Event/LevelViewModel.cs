@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using static LookClosely_Original.Common.EntityValidationConstants.Level;
+using static LookClosely_Original.GCommon.EntityValidationConstants.Level;
 namespace LookClosely_Original.ViewModels
 {
     public class LevelViewModel

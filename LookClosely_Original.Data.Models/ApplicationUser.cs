@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
-using static LookClosely_Original.Common.EntityValidationConstants.ApplicationUser;
+using static LookClosely_Original.GCommon.EntityValidationConstants.ApplicationUser;
 
 namespace LookClosely.Models
 {

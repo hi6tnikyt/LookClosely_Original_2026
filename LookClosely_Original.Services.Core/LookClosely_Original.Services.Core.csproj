@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LookClosely_Original.Data\LookClosely_Original.Data.csproj" />
+    <ProjectReference Include="..\LookClosely_Original.GCommon\LookClosely_Original.GCommon.csproj" />
+    <ProjectReference Include="..\LookClosely_Original.ViewModels\LookClosely_Original.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

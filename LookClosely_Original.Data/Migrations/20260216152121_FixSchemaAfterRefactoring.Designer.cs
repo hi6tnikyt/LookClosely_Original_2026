@@ -4,6 +4,7 @@ using LookClosely_Original.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LookClosely_Original.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260216152121_FixSchemaAfterRefactoring")]
+    partial class FixSchemaAfterRefactoring
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,10 +161,16 @@ namespace LookClosely_Original.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("LevelId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LevelId1")
                         .HasColumnType("int");
 
                     b.Property<int>("Points")
@@ -173,7 +182,11 @@ namespace LookClosely_Original.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ApplicationUserId");
+
                     b.HasIndex("LevelId");
+
+                    b.HasIndex("LevelId1");
 
                     b.HasIndex("UserId");
 
@@ -327,14 +340,22 @@ namespace LookClosely_Original.Migrations
 
             modelBuilder.Entity("LookClosely.Models.Score", b =>
                 {
-                    b.HasOne("LookClosely.Models.Level", "Level")
+                    b.HasOne("LookClosely.Models.ApplicationUser", null)
                         .WithMany("Scores")
+                        .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("LookClosely.Models.Level", "Level")
+                        .WithMany()
                         .HasForeignKey("LevelId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("LookClosely.Models.ApplicationUser", "User")
+                    b.HasOne("LookClosely.Models.Level", null)
                         .WithMany("Scores")
+                        .HasForeignKey("LevelId1");
+
+                    b.HasOne("LookClosely.Models.ApplicationUser", "User")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
