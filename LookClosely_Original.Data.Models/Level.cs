@@ -18,6 +18,8 @@ namespace LookClosely.Models
         [Required(ErrorMessage = "Снимката е задължителна!")]
         public string? ImagePath { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+
         public virtual ICollection<Score> Scores { get; set; }
               = new List<Score>();
     }
