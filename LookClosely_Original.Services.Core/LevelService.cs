@@ -27,13 +27,16 @@ namespace LookClosely_Original.Services.Core
                     ImagePath = l.ImagePath!,
                     Difficulty = l.Difficulty
                 })
-                .OrderBy(l => l.Difficulty) 
+                .OrderBy(l => l.Difficulty)
+                .ThenBy(l => l.Name)
                 .ToListAsync();
         }
 
         public async Task CreateLevelAsync(LevelViewModel model)
         {
-            bool exists = await dbContext.Levels.AnyAsync(l => l.Name == model.Name);
+            bool exists = await dbContext
+                .Levels
+                .AnyAsync(l => l.Name == model.Name);
             if (exists)
             {
                 throw new InvalidOperationException("Ниво с това име вече съществува.");
@@ -52,11 +55,15 @@ namespace LookClosely_Original.Services.Core
 
         public async Task<LevelViewModel?> GetLevelByIdAsync(int id)
         {
-            Level? level = await dbContext.Levels
+            Level? level = await dbContext
+                .Levels
                 .AsNoTracking()
                 .FirstOrDefaultAsync(l => l.Id == id);
 
-            if (level == null) return null;
+            if (level == null)
+            {
+                return null;
+            }
 
             return new LevelViewModel
             {
@@ -67,34 +74,33 @@ namespace LookClosely_Original.Services.Core
             };
         }
 
-        public async Task EditLevelAsync(LevelViewModel model)
+        public async Task EditLevelAsync(LevelViewModel model, string userId)
         {
-            Level? level = await dbContext.Levels.FindAsync(model.Id);
-
-            if (level == null)
+            Level? level = await dbContext
+                .Levels
+                .FindAsync(model.Id);
+            if (level == null || level.IsDeleted)
             {
-                throw new KeyNotFoundException($"Ниво с ID {model.Id} не беше намерено.");
+                throw new KeyNotFoundException("Нивото не е намерено.");
             }
 
-            if (level.Name != model.Name)
+            try
             {
-                bool nameTaken = await dbContext.Levels.AnyAsync(l => l.Name == model.Name && l.Id != model.Id);
-                if (nameTaken)
-                {
-                    throw new InvalidOperationException("Името вече се ползва от друго ниво.");
-                } 
+                level.Name = model.Name;
+                level.ImagePath = model.ImagePath;
+                level.Difficulty = model.Difficulty!;
+
+                await dbContext.SaveChangesAsync();
             }
-
-            level.Name = model.Name;
-            level.ImagePath = model.ImagePath;
-            level.Difficulty = model.Difficulty!;
-
-            await dbContext.SaveChangesAsync();
+            catch (DbUpdateException ex)
+            {
+                throw new Exception("Грешка при комуникация с базата данни.", ex);
+            }
         }
 
         public async Task DeleteLevelAsync(int id)
         {
-            var level = await dbContext.Levels
+            Level? level = await dbContext.Levels
                 .FirstOrDefaultAsync(l => l.Id == id && !l.IsDeleted);
 
             if (level == null)

@@ -6,6 +6,7 @@ using LookClosely_Original.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using LookClosely_Original.Services.Core;
 using LookClosely_Original.Services.Core.Interfaces;
+using System.Security.Claims;
 
 namespace LookClosely_Original.Controllers
 {
@@ -55,11 +56,27 @@ namespace LookClosely_Original.Controllers
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [HttpPost]
         public async Task<IActionResult> Edit(int id, LevelViewModel model)
         {
-            if (id != model.Id || !ModelState.IsValid) return View(model);
-            await levelService.EditLevelAsync(model);
-            return RedirectToAction(nameof(Index));
+            if (id != model.Id || !ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+                await levelService.EditLevelAsync(model, userId);
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View(model);
+            }
         }
 
         [Authorize]
