@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using LookClosely_Original.Services.Core.Interfaces;
 using LookClosely_Original.Services.Core;
+using LookClosely_Original.Data.Seeding;
+using LookClosely_Original.Data.Seeding.Contracts;
 
 namespace LookClosely_Original
 {
@@ -42,7 +44,7 @@ namespace LookClosely_Original
             builder.Services.AddScoped<ILevelService, LevelService>();
             builder.Services.AddScoped<IScoreService, ScoreService>();
             builder.Services.AddScoped<IUserService, UserService>();
-
+            builder.Services.AddScoped<IDbSeeder, DbSeeder>();
 
             WebApplication? app = builder.Build();
 
@@ -65,6 +67,8 @@ namespace LookClosely_Original
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseDbSeeder();
 
             app.MapControllerRoute(
                 name: "default",
