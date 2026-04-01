@@ -12,6 +12,10 @@ namespace LookClosely_Original.Data.Models
         [Required(ErrorMessage = "Името е задължително!")]
         public string Name { get; set; } = null!;
 
+        public double TargetX { get; set; } 
+        public double TargetY { get; set; } 
+        public double TargetRadius { get; set; } = 5.0; 
+
         [Required]
         public string Difficulty { get; set; } = null!;
 
