@@ -1,10 +1,9 @@
-﻿
-using LookClosely_Original.Data.Models;
+﻿using LookClosely_Original.Data.Models;
 using LookClosely_Original.Data;
 using LookClosely_Original.Services.Core.Interfaces;
 using LookClosely_Original.ViewModels;
 using Microsoft.EntityFrameworkCore;
-
+using static LookClosely_Original.GCommon.Exceptions.ErrorMessages;
 
 namespace LookClosely_Original.Services.Core
 {
@@ -21,13 +20,17 @@ namespace LookClosely_Original.Services.Core
         {
             return await dbContext.Levels
                 .Where(l => !l.IsDeleted)
-                .AsNoTracking() 
+                .AsNoTracking()
                 .Select(l => new LevelViewModel
                 {
                     Id = l.Id,
                     Name = l.Name,
                     ImagePath = l.ImagePath!,
-                    Difficulty = l.Difficulty
+                    Difficulty = l.Difficulty,
+
+                    TargetX = l.TargetX,
+                    TargetY = l.TargetY,
+                    TargetRadius = l.TargetRadius
                 })
                 .OrderBy(l => l.Difficulty)
                 .ThenBy(l => l.Name)
@@ -44,11 +47,15 @@ namespace LookClosely_Original.Services.Core
                 throw new InvalidOperationException("Ниво с това име вече съществува.");
             }
 
-            Level? level = new Level
+            Level level = new Level
             {
                 Name = model.Name,
                 ImagePath = model.ImagePath,
-                Difficulty = model.Difficulty!
+                Difficulty = model.Difficulty!,
+
+                TargetX = model.TargetX,
+                TargetY = model.TargetY,
+                TargetRadius = model.TargetRadius
             };
 
             await dbContext.Levels.AddAsync(level);
@@ -62,17 +69,18 @@ namespace LookClosely_Original.Services.Core
                 .AsNoTracking()
                 .FirstOrDefaultAsync(l => l.Id == id);
 
-            if (level == null)
-            {
-                return null;
-            }
+            if (level == null) return null;
 
             return new LevelViewModel
             {
                 Id = level.Id,
                 Name = level.Name,
                 ImagePath = level.ImagePath!,
-                Difficulty = level.Difficulty
+                Difficulty = level.Difficulty,
+
+                TargetX = level.TargetX,
+                TargetY = level.TargetY,
+                TargetRadius = level.TargetRadius
             };
         }
 
@@ -81,9 +89,10 @@ namespace LookClosely_Original.Services.Core
             Level? level = await dbContext
                 .Levels
                 .FindAsync(model.Id);
+
             if (level == null || level.IsDeleted)
             {
-                throw new KeyNotFoundException("Нивото не е намерено.");
+                throw new KeyNotFoundException(LevelNotFound); 
             }
 
             try
@@ -92,11 +101,15 @@ namespace LookClosely_Original.Services.Core
                 level.ImagePath = model.ImagePath;
                 level.Difficulty = model.Difficulty!;
 
+                level.TargetX = model.TargetX;
+                level.TargetY = model.TargetY;
+                level.TargetRadius = model.TargetRadius;
+
                 await dbContext.SaveChangesAsync();
             }
             catch (DbUpdateException ex)
             {
-                throw new Exception("Грешка при комуникация с базата данни.", ex);
+                throw new Exception(UnexpectedError, ex); 
             }
         }
 
@@ -107,11 +120,10 @@ namespace LookClosely_Original.Services.Core
 
             if (level == null)
             {
-                throw new ArgumentException("Нивото вече не съществува.");
+                throw new ArgumentException(LevelNotFound);
             }
 
             level.IsDeleted = true;
-
             await dbContext.SaveChangesAsync();
         }
 

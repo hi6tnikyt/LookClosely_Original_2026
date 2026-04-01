@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static LookClosely_Original.GCommon.EntityValidationConstants.Level;
+using static LookClosely_Original.GCommon.Exceptions.ErrorMessages;
 
 namespace LookClosely_Original.Data.Models
 {
@@ -9,7 +10,7 @@ namespace LookClosely_Original.Data.Models
         public int Id { get; set; }
 
         [MaxLength(NameMaxLength)]
-        [Required(ErrorMessage = "Името е задължително!")]
+        [Required(ErrorMessage = LevelNameRequired)]
         public string Name { get; set; } = null!;
 
         public double TargetX { get; set; } 
@@ -19,7 +20,7 @@ namespace LookClosely_Original.Data.Models
         [Required]
         public string Difficulty { get; set; } = null!;
 
-        [Required(ErrorMessage = "Снимката е задължителна!")]
+        [Required(ErrorMessage = LevelImageRequired)]
         public string? ImagePath { get; set; }
 
         public bool IsDeleted { get; set; } = false;
