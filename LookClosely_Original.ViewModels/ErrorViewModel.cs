@@ -1,4 +1,4 @@
-namespace LookClosely_Original.Models
+namespace LookClosely_Original.ViewModels
 {
     public class ErrorViewModel
     {

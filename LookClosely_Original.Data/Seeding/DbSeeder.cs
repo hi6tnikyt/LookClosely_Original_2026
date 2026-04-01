@@ -1,7 +1,7 @@
-﻿using LookClosely.Models;
-using LookClosely_Original.Data.Seeding.Contracts;
+﻿using LookClosely_Original.Data.Seeding.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using LookClosely_Original.Data.Models;
 
 namespace LookClosely_Original.Data.Seeding
 {

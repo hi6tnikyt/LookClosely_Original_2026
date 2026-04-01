@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using LookClosely.Models;
 using LookClosely_Original.LookCloselyViewModels.Event;
 using LookClosely_Original.Services.Core.Interfaces;
+using LookClosely_Original.Data.Models;
 
 namespace LookClosely_Original.Services.Core
 {

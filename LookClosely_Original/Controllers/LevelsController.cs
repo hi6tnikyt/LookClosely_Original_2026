@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using LookClosely_Original.Data;
-using LookClosely.Models;
 using LookClosely_Original.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using LookClosely_Original.Services.Core;
 using LookClosely_Original.Services.Core.Interfaces;
 using System.Security.Claims;
+
 
 namespace LookClosely_Original.Controllers
 {
@@ -26,14 +23,14 @@ namespace LookClosely_Original.Controllers
             return View(levels);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(LevelViewModel model)
@@ -44,7 +41,7 @@ namespace LookClosely_Original.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
@@ -53,7 +50,7 @@ namespace LookClosely_Original.Controllers
             return View(model);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         [HttpPost]
@@ -79,7 +76,7 @@ namespace LookClosely_Original.Controllers
             }
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
@@ -88,7 +85,7 @@ namespace LookClosely_Original.Controllers
             return View(model);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using LookClosely.Models;
-using System.Security.Claims;
-using LookClosely_Original.Data;
 using LookClosely_Original.LookCloselyViewModels.Event;
 using LookClosely_Original.Services.Core.Interfaces;
+using LookClosely_Original.Data.Models;
 
 [Authorize]
 public class ProfileController : Controller

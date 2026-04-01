@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
 using static LookClosely_Original.GCommon.EntityValidationConstants.Score;
 
-namespace LookClosely.Models
+namespace LookClosely_Original.Data.Models
 {
     public class Score
     {
@@ -18,13 +17,15 @@ namespace LookClosely.Models
         public DateTime DateTime { get; set; } = DateTime.Now;
 
         [Required]
-        [ForeignKey("UserId")]
         public string UserId { get; set; } = null!;
+
+        [ForeignKey(nameof(UserId))]
         public virtual ApplicationUser User { get; set; } = null!;
 
         [Required]
-        [ForeignKey("LevelId")]
         public int LevelId { get; set; }
+
+        [ForeignKey(nameof(LevelId))]
         public virtual Level Level { get; set; } = null!;
     }
 }

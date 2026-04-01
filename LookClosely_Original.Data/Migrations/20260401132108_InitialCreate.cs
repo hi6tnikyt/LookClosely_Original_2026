@@ -5,10 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace LookClosely_Original.Migrations
+namespace LookClosely_Original.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -64,7 +64,8 @@ namespace LookClosely_Original.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
                     Difficulty = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -178,6 +179,27 @@ namespace LookClosely_Original.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Hints",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PointsRequired = table.Column<int>(type: "int", nullable: false),
+                    LevelId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Hints", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Hints_Levels_LevelId",
+                        column: x => x.LevelId,
+                        principalTable: "Levels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Scores",
                 columns: table => new
                 {
@@ -202,17 +224,47 @@ namespace LookClosely_Original.Migrations
                         column: x => x.LevelId,
                         principalTable: "Levels",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UsersHints",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    HintId = table.Column<int>(type: "int", nullable: false),
+                    UnlockedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UsersHints", x => new { x.UserId, x.HintId });
+                    table.ForeignKey(
+                        name: "FK_UsersHints_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UsersHints_Hints_HintId",
+                        column: x => x.HintId,
+                        principalTable: "Hints",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "2c5e174e-3b0e-446f-86af-483d56fd7210", null, "Admin", "ADMIN" });
+
+            migrationBuilder.InsertData(
                 table: "Levels",
-                columns: new[] { "Id", "Difficulty", "ImagePath", "Name" },
+                columns: new[] { "Id", "Difficulty", "ImagePath", "IsDeleted", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Easy", "/images/levels/level1.jpg", "Стаята на детектива" },
-                    { 2, "Medium", "/images/levels/level2.jpg", "Изоставената библиотека" },
-                    { 3, "Hard", "/images/levels/level3.jpg", "Тайното мазе" }
+                    { 1, "Easy", "/images/levels/level1.webp", false, "Стаята на детектива" },
+                    { 2, "Medium", "/images/levels/level2.jpg", false, "Изоставената библиотека" },
+                    { 3, "Hard", "/images/levels/level3.jpg", false, "Тайното мазе" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -255,6 +307,11 @@ namespace LookClosely_Original.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Hints_LevelId",
+                table: "Hints",
+                column: "LevelId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Scores_LevelId",
                 table: "Scores",
                 column: "LevelId");
@@ -263,6 +320,11 @@ namespace LookClosely_Original.Migrations
                 name: "IX_Scores_UserId",
                 table: "Scores",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsersHints_HintId",
+                table: "UsersHints",
+                column: "HintId");
         }
 
         /// <inheritdoc />
@@ -287,10 +349,16 @@ namespace LookClosely_Original.Migrations
                 name: "Scores");
 
             migrationBuilder.DropTable(
+                name: "UsersHints");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Hints");
 
             migrationBuilder.DropTable(
                 name: "Levels");

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using static LookClosely_Original.GCommon.EntityValidationConstants.ApplicationUser;
 
-namespace LookClosely.Models
+namespace LookClosely_Original.Data.Models
 {
     public class ApplicationUser : IdentityUser
     {

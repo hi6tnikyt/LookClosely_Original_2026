@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static LookClosely_Original.GCommon.EntityValidationConstants.Level;
 
-namespace LookClosely.Models
+namespace LookClosely_Original.Data.Models
 {
     public class Level
     {

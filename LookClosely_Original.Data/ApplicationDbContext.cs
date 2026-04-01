@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using LookClosely.Models;
+using LookClosely_Original.Data.Models;
 
 namespace LookClosely_Original.Data
 {
@@ -15,10 +15,27 @@ namespace LookClosely_Original.Data
 
         public virtual DbSet<Level> Levels { get; set; } = null!;
         public virtual DbSet<Score> Scores { get; set; } = null!;
+        public virtual DbSet<Hint> Hints { get; set; }
+        public virtual DbSet<UserHint> UsersHints { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<UserHint>()
+                .HasKey(uh => new { uh.UserId, uh.HintId });
+
+            modelBuilder.Entity<Score>()
+                .HasOne(s => s.User)
+                .WithMany(u => u.Scores)  
+                .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Score>()
+                .HasOne(s => s.Level)
+                .WithMany(u => u.Scores)
+                .HasForeignKey(s => s.LevelId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Level>().HasData(
                 new Level
@@ -49,18 +66,6 @@ namespace LookClosely_Original.Data
                     Name = "Admin",
                     NormalizedName = "ADMIN"
             });
-
-                modelBuilder.Entity<Score>()
-                    .HasOne(s => s.User)
-                    .WithMany() // Или .WithMany(u => u.Scores) 
-                    .HasForeignKey(s => s.UserId)
-                    .OnDelete(DeleteBehavior.Cascade);
-
-                modelBuilder.Entity<Score>()
-                    .HasOne(s => s.Level)
-                    .WithMany()
-                    .HasForeignKey(s => s.LevelId)
-                    .OnDelete(DeleteBehavior.Restrict); 
         }
     }
 }

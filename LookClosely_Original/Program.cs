@@ -1,11 +1,12 @@
-using LookClosely.Models;
 using LookClosely_Original.Data;
+using LookClosely_Original.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using LookClosely_Original.Services.Core.Interfaces;
 using LookClosely_Original.Services.Core;
 using LookClosely_Original.Data.Seeding;
 using LookClosely_Original.Data.Seeding.Contracts;
+
 
 namespace LookClosely_Original
 {
@@ -71,8 +72,13 @@ namespace LookClosely_Original
             app.UseDbSeeder();
 
             app.MapControllerRoute(
+                name: "areas",
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+            app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
             app.MapRazorPages();
 
             app.Run();

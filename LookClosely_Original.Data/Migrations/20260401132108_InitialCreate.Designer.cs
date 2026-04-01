@@ -9,23 +9,23 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LookClosely_Original.Migrations
+namespace LookClosely_Original.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260215171533_UpdateImageExtension")]
-    partial class UpdateImageExtension
+    [Migration("20260401132108_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.11")
+                .HasAnnotation("ProductVersion", "8.0.23")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("LookClosely.Models.ApplicationUser", b =>
+            modelBuilder.Entity("LookClosely_Original.Data.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -104,7 +104,32 @@ namespace LookClosely_Original.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("LookClosely.Models.Level", b =>
+            modelBuilder.Entity("LookClosely_Original.Data.Models.Hint", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LevelId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PointsRequired")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LevelId");
+
+                    b.ToTable("Hints");
+                });
+
+            modelBuilder.Entity("LookClosely_Original.Data.Models.Level", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -119,6 +144,9 @@ namespace LookClosely_Original.Migrations
                     b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -135,6 +163,7 @@ namespace LookClosely_Original.Migrations
                             Id = 1,
                             Difficulty = "Easy",
                             ImagePath = "/images/levels/level1.webp",
+                            IsDeleted = false,
                             Name = "Стаята на детектива"
                         },
                         new
@@ -142,6 +171,7 @@ namespace LookClosely_Original.Migrations
                             Id = 2,
                             Difficulty = "Medium",
                             ImagePath = "/images/levels/level2.jpg",
+                            IsDeleted = false,
                             Name = "Изоставената библиотека"
                         },
                         new
@@ -149,11 +179,12 @@ namespace LookClosely_Original.Migrations
                             Id = 3,
                             Difficulty = "Hard",
                             ImagePath = "/images/levels/level3.jpg",
+                            IsDeleted = false,
                             Name = "Тайното мазе"
                         });
                 });
 
-            modelBuilder.Entity("LookClosely.Models.Score", b =>
+            modelBuilder.Entity("LookClosely_Original.Data.Models.Score", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -183,6 +214,24 @@ namespace LookClosely_Original.Migrations
                     b.ToTable("Scores");
                 });
 
+            modelBuilder.Entity("LookClosely_Original.Data.Models.UserHint", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("HintId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UnlockedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("UserId", "HintId");
+
+                    b.HasIndex("HintId");
+
+                    b.ToTable("UsersHints");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -208,6 +257,14 @@ namespace LookClosely_Original.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "2c5e174e-3b0e-446f-86af-483d56fd7210",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -320,21 +377,51 @@ namespace LookClosely_Original.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("LookClosely.Models.Score", b =>
+            modelBuilder.Entity("LookClosely_Original.Data.Models.Hint", b =>
                 {
-                    b.HasOne("LookClosely.Models.Level", "Level")
-                        .WithMany("Scores")
+                    b.HasOne("LookClosely_Original.Data.Models.Level", "Level")
+                        .WithMany()
                         .HasForeignKey("LevelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LookClosely.Models.ApplicationUser", "User")
+                    b.Navigation("Level");
+                });
+
+            modelBuilder.Entity("LookClosely_Original.Data.Models.Score", b =>
+                {
+                    b.HasOne("LookClosely_Original.Data.Models.Level", "Level")
+                        .WithMany("Scores")
+                        .HasForeignKey("LevelId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("LookClosely_Original.Data.Models.ApplicationUser", "User")
                         .WithMany("Scores")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Level");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("LookClosely_Original.Data.Models.UserHint", b =>
+                {
+                    b.HasOne("LookClosely_Original.Data.Models.Hint", "Hint")
+                        .WithMany()
+                        .HasForeignKey("HintId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LookClosely_Original.Data.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Hint");
 
                     b.Navigation("User");
                 });
@@ -350,7 +437,7 @@ namespace LookClosely_Original.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("LookClosely.Models.ApplicationUser", null)
+                    b.HasOne("LookClosely_Original.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -359,7 +446,7 @@ namespace LookClosely_Original.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("LookClosely.Models.ApplicationUser", null)
+                    b.HasOne("LookClosely_Original.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -374,7 +461,7 @@ namespace LookClosely_Original.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LookClosely.Models.ApplicationUser", null)
+                    b.HasOne("LookClosely_Original.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -383,19 +470,19 @@ namespace LookClosely_Original.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("LookClosely.Models.ApplicationUser", null)
+                    b.HasOne("LookClosely_Original.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("LookClosely.Models.ApplicationUser", b =>
+            modelBuilder.Entity("LookClosely_Original.Data.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Scores");
                 });
 
-            modelBuilder.Entity("LookClosely.Models.Level", b =>
+            modelBuilder.Entity("LookClosely_Original.Data.Models.Level", b =>
                 {
                     b.Navigation("Scores");
                 });

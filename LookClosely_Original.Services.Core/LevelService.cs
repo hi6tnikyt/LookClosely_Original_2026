@@ -1,8 +1,10 @@
-﻿using LookClosely_Original.Data;
+﻿
+using LookClosely_Original.Data.Models;
+using LookClosely_Original.Data;
 using LookClosely_Original.Services.Core.Interfaces;
 using LookClosely_Original.ViewModels;
 using Microsoft.EntityFrameworkCore;
-using LookClosely.Models;
+
 
 namespace LookClosely_Original.Services.Core
 {

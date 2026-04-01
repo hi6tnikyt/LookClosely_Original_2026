@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using LookClosely_Original.Models;
+using LookClosely_Original.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LookClosely_Original.Controllers
