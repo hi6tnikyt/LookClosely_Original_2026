@@ -27,7 +27,7 @@ namespace LookClosely_Original.Services.Core
                     Name = l.Name,
                     ImagePath = l.ImagePath!,
                     Difficulty = l.Difficulty,
-
+                    TargetObjectName = l.TargetObjectName,
                     TargetX = l.TargetX,
                     TargetY = l.TargetY,
                     TargetRadius = l.TargetRadius
@@ -52,7 +52,7 @@ namespace LookClosely_Original.Services.Core
                 Name = model.Name,
                 ImagePath = model.ImagePath,
                 Difficulty = model.Difficulty!,
-
+                TargetObjectName = model.TargetObjectName,
                 TargetX = model.TargetX,
                 TargetY = model.TargetY,
                 TargetRadius = model.TargetRadius
@@ -77,11 +77,24 @@ namespace LookClosely_Original.Services.Core
                 Name = level.Name,
                 ImagePath = level.ImagePath!,
                 Difficulty = level.Difficulty,
-
+                TargetObjectName = level.TargetObjectName,
                 TargetX = level.TargetX,
                 TargetY = level.TargetY,
                 TargetRadius = level.TargetRadius
             };
+        }
+
+        public async Task<bool> CheckHitAsync(int levelId, double x, double y)
+        {
+            Level? level = await dbContext.Levels.FindAsync(levelId);
+            if (level == null || level.IsDeleted)
+            {
+                return false;
+            }
+
+            double distance = Math.Sqrt(Math.Pow(x - level.TargetX, 2) + Math.Pow(y - level.TargetY, 2));
+
+            return distance <= level.TargetRadius;
         }
 
         public async Task EditLevelAsync(LevelViewModel model, string userId)
@@ -100,7 +113,7 @@ namespace LookClosely_Original.Services.Core
                 level.Name = model.Name;
                 level.ImagePath = model.ImagePath;
                 level.Difficulty = model.Difficulty!;
-
+                level.TargetObjectName = model.TargetObjectName;
                 level.TargetX = model.TargetX;
                 level.TargetY = model.TargetY;
                 level.TargetRadius = model.TargetRadius;

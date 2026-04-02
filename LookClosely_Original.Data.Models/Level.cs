@@ -15,7 +15,11 @@ namespace LookClosely_Original.Data.Models
 
         public double TargetX { get; set; } 
         public double TargetY { get; set; } 
-        public double TargetRadius { get; set; } = 5.0; 
+        public double TargetRadius { get; set; } = 5.0;
+
+        [Required]
+        [MaxLength(TargetObjectNameMaxLength)]
+        public string TargetObjectName { get; set; } = null!;
 
         [Required]
         public string Difficulty { get; set; } = null!;

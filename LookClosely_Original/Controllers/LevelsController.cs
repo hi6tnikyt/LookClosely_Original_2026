@@ -11,10 +11,12 @@ namespace LookClosely_Original.Controllers
     public class LevelsController : Controller
     {
         private readonly ILevelService levelService;
+        private readonly IScoreService scoreService;
 
-        public LevelsController(ILevelService levelService)
+        public LevelsController(ILevelService levelService, IScoreService scoreService)
         {
             this.levelService = levelService;
+            this.scoreService = scoreService;
         }
 
         public async Task<IActionResult> Index()
@@ -53,7 +55,6 @@ namespace LookClosely_Original.Controllers
         [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [HttpPost]
         public async Task<IActionResult> Edit(int id, LevelViewModel model)
         {
             if (id != model.Id || !ModelState.IsValid)
@@ -74,6 +75,24 @@ namespace LookClosely_Original.Controllers
                 ModelState.AddModelError("", ex.Message);
                 return View(model);
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CheckClick(int levelId, double x, double y)
+        {
+            bool isHit = await levelService.CheckHitAsync(levelId, x, y);
+
+            if (isHit)
+            {
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+                await scoreService.AddScoreAsync(levelId, userId, 100);
+
+                return Json(new { success = true, message = "Поздравления! Намери обекта!" });
+            }
+
+            return Json(new { success = false, message = " Опитай пак!" });
         }
 
         [Authorize(Roles = "Admin")]

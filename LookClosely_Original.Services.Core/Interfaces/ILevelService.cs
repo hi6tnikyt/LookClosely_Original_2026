@@ -11,5 +11,6 @@ namespace LookClosely_Original.Services.Core.Interfaces
         Task EditLevelAsync(LevelViewModel model, string Id);
         Task DeleteLevelAsync(int id);
         Task<bool> ExistsAsync(int id);
+        Task<bool> CheckHitAsync(int levelId, double x, double y);
     }
 }

@@ -6,6 +6,9 @@
         {
             public const int NameMinLength = 5;
             public const int NameMaxLength = 150;
+
+            public const int TargetObjectNameMaxLength = 100;
+            public const int TargetObjectNameMinLength = 2;
         }
 
         public static class Score

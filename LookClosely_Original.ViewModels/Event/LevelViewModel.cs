@@ -26,5 +26,9 @@ namespace LookClosely_Original.ViewModels
 
         [Range(1, 20, ErrorMessage = InvalidRadius)]
         public double TargetRadius { get; set; } = 5.0;
+
+        [Required]
+        [MaxLength(TargetObjectNameMaxLength)]
+        public string TargetObjectName { get; set; } = null!;
     }
 }

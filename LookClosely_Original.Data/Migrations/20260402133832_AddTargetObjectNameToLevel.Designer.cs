@@ -4,6 +4,7 @@ using LookClosely_Original.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LookClosely_Original.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260402133832_AddTargetObjectNameToLevel")]
+    partial class AddTargetObjectNameToLevel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,44 +170,6 @@ namespace LookClosely_Original.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Levels");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Difficulty = "Easy",
-                            ImagePath = "/images/levels/level1.webp",
-                            IsDeleted = false,
-                            Name = "Стаята на детектива",
-                            TargetObjectName = "Лупа",
-                            TargetRadius = 5.0,
-                            TargetX = 45.0,
-                            TargetY = 55.0
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Difficulty = "Medium",
-                            ImagePath = "/images/levels/level2.jpg",
-                            IsDeleted = false,
-                            Name = "Изоставената библиотека",
-                            TargetObjectName = "Стара книга",
-                            TargetRadius = 5.0,
-                            TargetX = 30.0,
-                            TargetY = 40.0
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Difficulty = "Hard",
-                            ImagePath = "/images/levels/level3.jpg",
-                            IsDeleted = false,
-                            Name = "Тайното мазе",
-                            TargetObjectName = "Златен ключ",
-                            TargetRadius = 5.0,
-                            TargetX = 70.0,
-                            TargetY = 20.0
-                        });
                 });
 
             modelBuilder.Entity("LookClosely_Original.Data.Models.Score", b =>
