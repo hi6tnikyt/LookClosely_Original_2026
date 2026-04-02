@@ -18,7 +18,7 @@ namespace LookClosely_Original.Data.Configurations
                     Difficulty = "Easy",
                     ImagePath = "/images/levels/level1.webp",
                     TargetObjectName = "Лупа",
-                    TargetX = 45.0, TargetY = 55.0, TargetRadius = 5.0
+                    TargetX = 18.98, TargetY = 56.06, TargetRadius = 5.0
                 },
                 new Level
                 {

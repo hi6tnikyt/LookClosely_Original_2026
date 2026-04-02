@@ -24,71 +24,66 @@
 @Html.AntiForgeryToken()
 @section Scripts {
     <script>
-        document.getElementById('game-canvas').addEventListener('click', function(e) {
-            const rect = e.target.getBoundingClientRect();
+        document.getElementById('game-canvas').addEventListener('click', async function(e) {
+             const rect = e.target.getBoundingClientRect();
 
-            const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
-            const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
+             const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
+             const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
 
-            console.log(`Клик в проценти -> X: ${xPercent.toFixed(2)}%, Y: ${yPercent.toFixed(2)}%`);
+             console.log(`Клик в проценти -> X: ${xPercent.toFixed(2)}%, Y: ${yPercent.toFixed(2)}%`);
 
-            showClickMarker(e.clientX - rect.left, e.clientY - rect.top);
+             showClickMarker(e.clientX - rect.left, e.clientY - rect.top);
 
-            window.lastClickX = xPercent;
-            window.lastClickY = yPercent;
-        });
+             const levelId = @Model.Id;
+             const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
-        function showClickMarker(x, y) {
-            const oldMarker = document.getElementById('click-marker');
-            if (oldMarker) oldMarker.remove();
+             try {
+                 const formData = new FormData();
+                 formData.append('levelId', levelId);
+                 formData.append('x', xPercent);
+                 formData.append('y', yPercent);
+                 formData.append('__RequestVerificationToken', token);
 
-            const marker = document.createElement('div');
-            marker.id = 'click-marker';
-            marker.style.position = 'absolute';
-            marker.style.left = (x - 20) + 'px';
-            marker.style.top = (y - 20) + 'px';
-            marker.style.width = '40px';
-            marker.style.height = '40px';
-            marker.style.border = '4px solid red';
-            marker.style.borderRadius = '50%';
-            marker.style.boxShadow = '0 0 10px white';
-            marker.style.pointerEvents = 'none';
+                 const response = await fetch(`/Levels/CheckClick`, {
+                     method: 'POST',
+                     body: formData
+                 });
 
-            document.querySelector('.game-container').appendChild(marker);
-        }
+                 const result = await response.json();
 
-        async function checkScore() {
-            if (!window.lastClickX) {
-                alert("Моля, първо кликнете върху снимката!");
-                return;
-            }
+                 if (result.success) {
+                     const marker = document.getElementById('click-marker');
+                     if (marker) marker.style.borderColor = 'lime';
 
-            const levelId = @Model.Id;
-            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                     setTimeout(() => {
+                         alert(result.message);
+                         window.location.href = '/Levels/Index';
+                     }, 100);
+                 } else {
+                     console.log(result.message);
+                 }
+             } catch (error) {
+                 console.error("Грешка при проверката:", error);
+             }
+         });
 
-            try {
-                const response = await fetch(`/Levels/CheckClick?levelId=${levelId}&x=${window.lastClickX}&y=${window.lastClickY}`, {
-                    method: 'POST',
-                    headers: {
-                        'RequestVerificationToken': token
-                    }
-                });
+         function showClickMarker(x, y) {
+             const oldMarker = document.getElementById('click-marker');
+             if (oldMarker) oldMarker.remove();
 
-                const result = await response.json();
+             const marker = document.createElement('div');
+             marker.id = 'click-marker';
+             marker.style.position = 'absolute';
+             marker.style.left = (x - 20) + 'px';
+             marker.style.top = (y - 20) + 'px';
+             marker.style.width = '40px';
+             marker.style.height = '40px';
+             marker.style.border = '4px solid red';
+             marker.style.borderRadius = '50%';
+             marker.style.boxShadow = '0 0 10px white';
+             marker.style.pointerEvents = 'none';
 
-                if (result.success) {
-                    const marker = document.getElementById('click-marker');
-                    if (marker) marker.style.borderColor = 'lime';
-
-                    alert(result.message);
-                    window.location.href = '/Levels/Index';
-                } else {
-                    alert(result.message);
-                }
-            } catch (error) {
-                console.error("Грешка при проверката:", error);
-                alert("Възникна техническа грешка. Провери конзолата.");
-            }
-        }
+             document.querySelector('.game-container').appendChild(marker);
+         }
     </script>
 }

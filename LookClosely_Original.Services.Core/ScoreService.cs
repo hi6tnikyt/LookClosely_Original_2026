@@ -36,16 +36,38 @@ namespace LookClosely_Original.Services.Core
 
         public async Task AddScoreAsync(int levelId, string userId, int points)
         {
-            var score = new Score
-            {
-                LevelId = levelId,
-                UserId = userId,
-                Points = points,
-                DateTime = DateTime.Now
-            };
+            bool alreadySolved = await dbContext.Scores
+            .AnyAsync(s => s.LevelId == levelId && s.UserId == userId);
 
-            await dbContext.Scores.AddAsync(score);
-            await dbContext.SaveChangesAsync();
+            if (!alreadySolved)
+            {
+                var score = new Score
+                {
+                    LevelId = levelId,
+                    UserId = userId,
+                    Points = points,
+                    DateTime = DateTime.Now
+                };
+
+                await dbContext.Scores.AddAsync(score);
+                await dbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task<IEnumerable<ScoreViewModel>> GetLeaderboardAsync()
+        {
+            return await dbContext.Scores
+                .Include(s => s.User)
+                .Include(s => s.Level)
+                .OrderByDescending(s => s.Points)
+                .Select(s => new ScoreViewModel
+                {
+                    UserName = s.User.UserName ?? "Анонимен",
+                    LevelName = s.Level.Name,
+                    Points = s.Points,
+                    DateTime = s.DateTime
+                })
+                .ToListAsync();
         }
     }
 }

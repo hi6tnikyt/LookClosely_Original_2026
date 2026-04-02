@@ -1,26 +1,26 @@
-﻿@using LookClosely_Original.LookCloselyViewModels 
+﻿@using LookClosely_Original.LookCloselyViewModels
 @model IEnumerable<ScoreViewModel>
 
 @{
     ViewData["Title"] = "Класация";
- }
+}
 
 <div class="container mt-5">
     <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold">🏆 ТОП ДЕТЕКТИВИ</h1>
-        <p class="text-muted">Най-бързите и наблюдателни играчи</p>
+        <h1 class="display-4 fw-bold text-white">🏆 ТОП ДЕТЕКТИВИ</h1>
+        <p class="text-light opacity-75">Най-бързите и наблюдателни играчи</p>
     </div>
 
-    <div class="card shadow-lg border-0">
+    <div class="card shadow-lg border-secondary bg-dark">
         <div class="card-body p-0">
-            <table class="table table-hover mb-0">
-                <thead class="table-dark">
-                    <tr>
-                        <th class="ps-4">№</th>
-                        <th>Играч</th>
-                        <th>Ниво</th>
-                        <th>Точки</th>
-                        <th class="pe-4">Дата</th>
+            <table class="table table-dark table-hover mb-0 text-white">
+                <thead class="table-active">
+                    <tr class="text-warning">
+                        <th class="ps-4 py-3">№</th>
+                        <th class="py-3">Играч</th>
+                        <th class="py-3">Ниво</th>
+                        <th class="py-3">Точки</th>
+                        <th class="pe-4 py-3">Дата</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,13 +29,13 @@
                     }
                     @foreach (var score in Model)
                     {
-                        <tr>
+                        <tr style="vertical-align: middle;">
                             <td class="ps-4 fw-bold">
                                 @(rank == 1 ? "🥇" : rank == 2 ? "🥈" : rank == 3 ? "🥉" : rank + ".")
                             </td>
-                            <td>@score.UserName</td>
-                            <td>@score.LevelName</td>
-                            <td class="fw-bold text-primary">@score.Points</td>
+                            <td class="text-white">@score.UserName</td>
+                            <td class="text-white-50">@score.LevelName</td>
+                            <td class="fw-bold text-info">@score.Points</td>
                             <td class="pe-4 text-muted">@score.DateTime.ToString("dd.MM.yyyy")</td>
                         </tr>
                         rank++;
@@ -45,3 +45,9 @@
         </div>
     </div>
 </div>
+
+<style>
+    .table-hover tbody tr:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+</style>
