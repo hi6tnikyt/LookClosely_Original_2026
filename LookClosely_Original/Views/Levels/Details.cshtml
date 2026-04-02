@@ -24,14 +24,43 @@
     <script>
         document.getElementById('game-canvas').addEventListener('click', function(e) {
             const rect = e.target.getBoundingClientRect();
-            const x = e.clientX - rect.left; 
-            const y = e.clientY - rect.top; 
 
-            console.log("Кликна на X: " + x + ", Y: " + y);
+            const xPercent = ((e.clientX - rect.left) / rect.width) * 100;
+            const yPercent = ((e.clientY - rect.top) / rect.height) * 100;
+
+            console.log(`Клик в проценти -> X: ${xPercent.toFixed(2)}%, Y: ${yPercent.toFixed(2)}%`);
+
+            showClickMarker(e.clientX - rect.left, e.clientY - rect.top);
+
+            window.lastClickX = xPercent;
+            window.lastClickY = yPercent;
         });
 
-        function checkScore() {
-            alert("Браво! Твоят резултат се обработва...");
+        function showClickMarker(x, y) {
+            const oldMarker = document.getElementById('click-marker');
+            if (oldMarker) oldMarker.remove();
+
+            const marker = document.createElement('div');
+            marker.id = 'click-marker';
+            marker.style.position = 'absolute';
+            marker.style.left = (x - 10) + 'px'; 
+            marker.style.top = (y - 10) + 'px';
+            marker.style.width = '20px';
+            marker.style.height = '20px';
+            marker.style.border = '2px solid red';
+            marker.style.borderRadius = '50%';
+            marker.style.pointerEvents = 'none'; 
+
+            document.querySelector('.game-container').appendChild(marker);
+        }
+
+        async function checkScore() {
+            if (!window.lastClickX) {
+                alert("Моля, първо кликнете върху снимката!");
+                return;
+            }
+
+            alert(`Проверяваме координати: X:${window.lastClickX.toFixed(2)}%, Y:${window.lastClickY.toFixed(2)}%`);
         }
     </script>
 }
