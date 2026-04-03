@@ -20,6 +20,7 @@
                         <th class="py-3">Играч</th>
                         <th class="py-3">Ниво</th>
                         <th class="py-3">Точки</th>
+                        <th class="py-3">⏱️ Време</th>
                         <th class="pe-4 py-3">Дата</th>
                     </tr>
                 </thead>
@@ -36,6 +37,7 @@
                             <td class="text-white">@score.UserName</td>
                             <td class="text-white-50">@score.LevelName</td>
                             <td class="fw-bold text-info">@score.Points</td>
+                            <td class="text-warning">@score.TimeInSeconds сек.</td>
                             <td class="pe-4 text-muted">@score.DateTime.ToString("dd.MM.yyyy")</td>
                         </tr>
                         rank++;
@@ -49,5 +51,9 @@
 <style>
     .table-hover tbody tr:hover {
         background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .text-warning {
+        color: #ffc107 !important;
     }
 </style>

@@ -18,14 +18,14 @@ namespace LookClosely_Original.ViewModels
 
         public string? Difficulty { get; set; }
 
-        [Range(0, 100, ErrorMessage = InvalidCoordinates)]
+        [Range(0, 2000, ErrorMessage = InvalidCoordinates)] 
         public double TargetX { get; set; }
 
-        [Range(0, 100, ErrorMessage = InvalidCoordinates)]
+        [Range(0, 2000, ErrorMessage = InvalidCoordinates)]
         public double TargetY { get; set; }
 
-        [Range(1, 20, ErrorMessage = InvalidRadius)]
-        public double TargetRadius { get; set; } = 5.0;
+        [Range(1, 500, ErrorMessage = InvalidRadius)] 
+        public double TargetRadius { get; set; }
 
         [Required]
         [MaxLength(TargetObjectNameMaxLength)]

@@ -21,12 +21,14 @@ namespace LookClosely_Original.Services.Core
                 .Include(s => s.User)
                 .Include(s => s.Level)
                 .OrderByDescending(s => s.Points)
+                .ThenBy(s => s.TimeInSeconds)
                 .Take(count)
                 .Select(s => new ScoreViewModel
                 {
                     UserName = s.User.UserName!,
                     LevelName = s.Level.Name,
                     Points = s.Points,
+                    TimeInSeconds = s.TimeInSeconds,
                     DateTime = s.DateTime
                 })
                 .ToListAsync();
@@ -34,10 +36,10 @@ namespace LookClosely_Original.Services.Core
             return topScores;
         }
 
-        public async Task AddScoreAsync(int levelId, string userId, int points)
+        public async Task AddScoreAsync(int levelId, string userId, int points, int timeInSeconds)
         {
             bool alreadySolved = await dbContext.Scores
-            .AnyAsync(s => s.LevelId == levelId && s.UserId == userId);
+                .AnyAsync(s => s.LevelId == levelId && s.UserId == userId);
 
             if (!alreadySolved)
             {
@@ -46,6 +48,7 @@ namespace LookClosely_Original.Services.Core
                     LevelId = levelId,
                     UserId = userId,
                     Points = points,
+                    TimeInSeconds = timeInSeconds, 
                     DateTime = DateTime.Now
                 };
 
@@ -60,11 +63,13 @@ namespace LookClosely_Original.Services.Core
                 .Include(s => s.User)
                 .Include(s => s.Level)
                 .OrderByDescending(s => s.Points)
+                .ThenBy(s => s.TimeInSeconds)
                 .Select(s => new ScoreViewModel
                 {
                     UserName = s.User.UserName ?? "Анонимен",
                     LevelName = s.Level.Name,
                     Points = s.Points,
+                    TimeInSeconds = s.TimeInSeconds,
                     DateTime = s.DateTime
                 })
                 .ToListAsync();

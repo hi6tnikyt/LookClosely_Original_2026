@@ -3,6 +3,7 @@ using LookClosely_Original.Services.Core.Interfaces;
 using LookClosely_Original.ViewModels;
 using LookClosely_Original.Data.Repository.Contracts;
 using static LookClosely_Original.GCommon.Exceptions.ErrorMessages;
+using Microsoft.EntityFrameworkCore;
 
 namespace LookClosely_Original.Services.Core
 {
@@ -75,6 +76,34 @@ namespace LookClosely_Original.Services.Core
             };
 
             await levelRepository.AddAsync(level);
+        }
+
+        public async Task<bool> CheckClickAsync(int levelId, double x, double y, int timeInSeconds, string userId)
+        {
+            Level? level = await levelRepository.GetLevelByIdAsync(levelId);
+
+            if (level == null || level.IsDeleted)
+            {
+                return false;
+            } 
+
+            double distance = Math.Sqrt(Math.Pow(x - level.TargetX, 2) + Math.Pow(y - level.TargetY, 2));
+
+            if (distance <= level.TargetRadius)
+            {
+                Score? score = new Score
+                {
+                    LevelId = levelId,
+                    UserId = userId,
+                    Points = 100,
+                    TimeInSeconds = timeInSeconds,
+                    DateTime = DateTime.Now
+                };
+
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<bool> CheckHitAsync(int levelId, double x, double y)

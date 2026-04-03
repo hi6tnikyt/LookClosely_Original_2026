@@ -8,6 +8,9 @@ namespace LookClosely_Original.LookCloselyViewModels
         public string UserName { get; set; } = null!;
         public string LevelName { get; set; } = null!;
         public int Points { get; set; }
+
+        [Display(Name = "Време (сек)")]
+        public int TimeInSeconds { get; set; }
         public DateTime DateTime { get; set; }
     }
 }

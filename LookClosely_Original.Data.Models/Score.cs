@@ -17,6 +17,9 @@ namespace LookClosely_Original.Data.Models
         public DateTime DateTime { get; set; } = DateTime.Now;
 
         [Required]
+        public int TimeInSeconds { get; set; }
+
+        [Required]
         public string UserId { get; set; } = null!;
 
         [ForeignKey(nameof(UserId))]

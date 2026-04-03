@@ -79,7 +79,7 @@ namespace LookClosely_Original.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CheckClick(int levelId, double x, double y)
+        public async Task<IActionResult> CheckClick(int levelId, double x, double y, int timeInSeconds)
         {
             bool isHit = await levelService.CheckHitAsync(levelId, x, y);
 
@@ -87,12 +87,12 @@ namespace LookClosely_Original.Controllers
             {
                 string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
-                await scoreService.AddScoreAsync(levelId, userId, 100);
+                await scoreService.AddScoreAsync(levelId, userId, 100, timeInSeconds);
 
                 return Json(new { success = true, message = "Поздравления! Намери обекта!" });
             }
 
-            return Json(new { success = false, message = " Опитай пак!" });
+            return Json(new { success = false, message = "Опитай пак!" });
         }
 
         [Authorize(Roles = "Admin")]
