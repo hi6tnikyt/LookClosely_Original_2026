@@ -1,6 +1,4 @@
-﻿using LookClosely_Original.Data;
-using Microsoft.EntityFrameworkCore;
-
+﻿
 namespace LookClosely_Original.Data.Repository
 {
     public abstract class BaseRepository : IDisposable

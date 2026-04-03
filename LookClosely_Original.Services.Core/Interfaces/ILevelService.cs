@@ -1,5 +1,4 @@
-﻿
-using LookClosely_Original.ViewModels;
+﻿using LookClosely_Original.ViewModels;
 
 namespace LookClosely_Original.Services.Core.Interfaces
 {

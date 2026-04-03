@@ -1,5 +1,4 @@
-﻿
-using LookClosely_Original.Data.Models;
+﻿using LookClosely_Original.Data.Models;
 
 namespace LookClosely_Original.Data.Repository.Contracts
 {
@@ -7,6 +6,7 @@ namespace LookClosely_Original.Data.Repository.Contracts
     {
         Task<ApplicationUser?> GetByIdAsync(string id);
         Task<IEnumerable<ApplicationUser>> GetAllUsersAsync();
+        Task<ApplicationUser?> GetByIdWithScoresAsync(string id);
         Task<int> SaveChangeAsync();
     }
 }

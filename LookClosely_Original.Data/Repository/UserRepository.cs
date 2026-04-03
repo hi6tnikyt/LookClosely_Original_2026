@@ -1,5 +1,4 @@
-﻿
-using LookClosely_Original.Data.Models;
+﻿using LookClosely_Original.Data.Models;
 using LookClosely_Original.Data.Repository.Contracts;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,6 +22,14 @@ namespace LookClosely_Original.Data.Repository
             return await DbContext.Users
                 .AsNoTracking()
                 .ToListAsync();
+        }
+
+        public async Task<ApplicationUser?> GetByIdWithScoresAsync(string id)
+        {
+            return await DbContext.Users
+                .Include(u => u.Scores)
+                    .ThenInclude(s => s.Level)
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public new async Task<int> SaveChangeAsync()

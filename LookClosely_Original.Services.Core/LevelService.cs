@@ -3,7 +3,7 @@ using LookClosely_Original.Services.Core.Interfaces;
 using LookClosely_Original.ViewModels;
 using LookClosely_Original.Data.Repository.Contracts;
 using static LookClosely_Original.GCommon.Exceptions.ErrorMessages;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace LookClosely_Original.Services.Core
 {
@@ -18,7 +18,7 @@ namespace LookClosely_Original.Services.Core
 
         public async Task<IEnumerable<LevelViewModel>> GetAllLevelsAsync()
         {
-            var levels = await levelRepository.GetAllLevelsAsync(l => !l.IsDeleted);
+            IEnumerable<Level> levels = await levelRepository.GetAllLevelsAsync(l => !l.IsDeleted);
 
             return levels
                 .Select(l => new LevelViewModel
@@ -41,7 +41,10 @@ namespace LookClosely_Original.Services.Core
         {
             Level? level = await levelRepository.GetLevelByIdAsync(id);
 
-            if (level == null || level.IsDeleted) return null;
+            if (level == null || level.IsDeleted)
+            {
+                return null;
+            } 
 
             return new LevelViewModel
             {
@@ -58,10 +61,10 @@ namespace LookClosely_Original.Services.Core
 
         public async Task CreateLevelAsync(LevelViewModel model)
         {
-            var existing = await levelRepository.GetAllLevelsAsync(l => l.Name == model.Name);
+            IEnumerable<Level> existing = await levelRepository.GetAllLevelsAsync(l => l.Name == model.Name);
             if (existing.Any())
             {
-                throw new InvalidOperationException("Ниво с това име вече съществува.");
+                throw new InvalidOperationException(LevelNameAlreadyExists);
             }
 
             Level level = new Level
@@ -151,7 +154,7 @@ namespace LookClosely_Original.Services.Core
 
         public async Task<bool> ExistsAsync(int id)
         {
-            var levels = await levelRepository.GetAllLevelsAsync(l => l.Id == id && !l.IsDeleted);
+            IEnumerable<Level> levels = await levelRepository.GetAllLevelsAsync(l => l.Id == id && !l.IsDeleted);
             return levels.Any();
         }
     }

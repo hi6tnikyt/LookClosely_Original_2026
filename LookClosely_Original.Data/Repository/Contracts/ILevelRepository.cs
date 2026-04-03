@@ -1,5 +1,4 @@
-﻿
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using LookClosely_Original.Data.Models;
 
 namespace LookClosely_Original.Data.Repository.Contracts

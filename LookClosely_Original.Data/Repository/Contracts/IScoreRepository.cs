@@ -8,5 +8,8 @@ namespace LookClosely_Original.Data.Repository.Contracts
         Task<IEnumerable<Score>> GetAllScoresAsync();
         Task AddScoreAsync(Score score);
         Task<int> SaveChangeAsync();
+        Task<Score?> GetScoreByUserAndLevelAsync(string userId, int levelId);
+       IQueryable<Score> GetAllScoresQuery();
+        Task<bool> UpdateScoreAsync(Score score);
     }
 }
