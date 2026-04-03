@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Data\" />
     <Folder Include="wwwroot\images\levels\" />
     <Folder Include="wwwroot\images\avatars\" />
   </ItemGroup>
