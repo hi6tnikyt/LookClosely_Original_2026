@@ -1,26 +1,25 @@
 ﻿using LookClosely_Original.Data.Models;
-using LookClosely_Original.Data;
 using LookClosely_Original.Services.Core.Interfaces;
 using LookClosely_Original.ViewModels;
-using Microsoft.EntityFrameworkCore;
+using LookClosely_Original.Data.Repository.Contracts;
 using static LookClosely_Original.GCommon.Exceptions.ErrorMessages;
 
 namespace LookClosely_Original.Services.Core
 {
     public class LevelService : ILevelService
     {
-        private readonly ApplicationDbContext dbContext;
+        private readonly ILevelRepository levelRepository;
 
-        public LevelService(ApplicationDbContext dbContext)
+        public LevelService(ILevelRepository levelRepository)
         {
-            this.dbContext = dbContext;
+            this.levelRepository = levelRepository;
         }
 
         public async Task<IEnumerable<LevelViewModel>> GetAllLevelsAsync()
         {
-            return await dbContext.Levels
-                .Where(l => !l.IsDeleted)
-                .AsNoTracking()
+            var levels = await levelRepository.GetAllLevelsAsync(l => !l.IsDeleted);
+
+            return levels
                 .Select(l => new LevelViewModel
                 {
                     Id = l.Id,
@@ -34,15 +33,32 @@ namespace LookClosely_Original.Services.Core
                 })
                 .OrderBy(l => l.Difficulty)
                 .ThenBy(l => l.Name)
-                .ToListAsync();
+                .ToList();
+        }
+
+        public async Task<LevelViewModel?> GetLevelByIdAsync(int id)
+        {
+            Level? level = await levelRepository.GetLevelByIdAsync(id);
+
+            if (level == null || level.IsDeleted) return null;
+
+            return new LevelViewModel
+            {
+                Id = level.Id,
+                Name = level.Name,
+                ImagePath = level.ImagePath!,
+                Difficulty = level.Difficulty,
+                TargetObjectName = level.TargetObjectName,
+                TargetX = level.TargetX,
+                TargetY = level.TargetY,
+                TargetRadius = level.TargetRadius
+            };
         }
 
         public async Task CreateLevelAsync(LevelViewModel model)
         {
-            bool exists = await dbContext
-                .Levels
-                .AnyAsync(l => l.Name == model.Name);
-            if (exists)
+            var existing = await levelRepository.GetAllLevelsAsync(l => l.Name == model.Name);
+            if (existing.Any())
             {
                 throw new InvalidOperationException("Ниво с това име вече съществува.");
             }
@@ -58,91 +74,56 @@ namespace LookClosely_Original.Services.Core
                 TargetRadius = model.TargetRadius
             };
 
-            await dbContext.Levels.AddAsync(level);
-            await dbContext.SaveChangesAsync();
-        }
-
-        public async Task<LevelViewModel?> GetLevelByIdAsync(int id)
-        {
-            Level? level = await dbContext
-                .Levels
-                .AsNoTracking()
-                .FirstOrDefaultAsync(l => l.Id == id);
-
-            if (level == null) return null;
-
-            return new LevelViewModel
-            {
-                Id = level.Id,
-                Name = level.Name,
-                ImagePath = level.ImagePath!,
-                Difficulty = level.Difficulty,
-                TargetObjectName = level.TargetObjectName,
-                TargetX = level.TargetX,
-                TargetY = level.TargetY,
-                TargetRadius = level.TargetRadius
-            };
+            await levelRepository.AddAsync(level);
         }
 
         public async Task<bool> CheckHitAsync(int levelId, double x, double y)
         {
-            Level? level = await dbContext.Levels.FindAsync(levelId);
+            Level? level = await levelRepository.GetLevelByIdAsync(levelId);
             if (level == null || level.IsDeleted)
             {
                 return false;
             }
 
             double distance = Math.Sqrt(Math.Pow(x - level.TargetX, 2) + Math.Pow(y - level.TargetY, 2));
-
             return distance <= level.TargetRadius;
         }
 
         public async Task EditLevelAsync(LevelViewModel model, string userId)
         {
-            Level? level = await dbContext
-                .Levels
-                .FindAsync(model.Id);
+            Level? level = await levelRepository.GetLevelByIdAsync(model.Id);
 
             if (level == null || level.IsDeleted)
             {
-                throw new KeyNotFoundException(LevelNotFound); 
+                throw new KeyNotFoundException(LevelNotFound);
             }
 
-            try
-            {
-                level.Name = model.Name;
-                level.ImagePath = model.ImagePath;
-                level.Difficulty = model.Difficulty!;
-                level.TargetObjectName = model.TargetObjectName;
-                level.TargetX = model.TargetX;
-                level.TargetY = model.TargetY;
-                level.TargetRadius = model.TargetRadius;
+            level.Name = model.Name;
+            level.ImagePath = model.ImagePath;
+            level.Difficulty = model.Difficulty!;
+            level.TargetObjectName = model.TargetObjectName;
+            level.TargetX = model.TargetX;
+            level.TargetY = model.TargetY;
+            level.TargetRadius = model.TargetRadius;
 
-                await dbContext.SaveChangesAsync();
-            }
-            catch (DbUpdateException ex)
-            {
-                throw new Exception(UnexpectedError, ex); 
-            }
+            await levelRepository.SaveChangeAsync();
         }
 
         public async Task DeleteLevelAsync(int id)
         {
-            Level? level = await dbContext.Levels
-                .FirstOrDefaultAsync(l => l.Id == id && !l.IsDeleted);
+            Level? level = await levelRepository.GetLevelByIdAsync(id);
 
-            if (level == null)
+            if (level != null)
             {
-                throw new ArgumentException(LevelNotFound);
+                level.IsDeleted = true; 
+                await levelRepository.SaveChangeAsync();
             }
-
-            level.IsDeleted = true;
-            await dbContext.SaveChangesAsync();
         }
 
         public async Task<bool> ExistsAsync(int id)
         {
-            return await dbContext.Levels.AnyAsync(l => l.Id == id && !l.IsDeleted);
+            var levels = await levelRepository.GetAllLevelsAsync(l => l.Id == id && !l.IsDeleted);
+            return levels.Any();
         }
     }
 }

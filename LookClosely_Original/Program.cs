@@ -6,6 +6,8 @@ using LookClosely_Original.Services.Core.Interfaces;
 using LookClosely_Original.Services.Core;
 using LookClosely_Original.Data.Seeding;
 using LookClosely_Original.Data.Seeding.Contracts;
+using LookClosely_Original.Data.Repository.Contracts;
+using LookClosely_Original.Data.Repository;
 
 
 namespace LookClosely_Original
@@ -38,14 +40,21 @@ namespace LookClosely_Original
                 options.Password.RequiredUniqueChars = 1;
             })
                  .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddScoped<ILevelService, LevelService>();
             builder.Services.AddScoped<IScoreService, ScoreService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ILevelRepository, LevelRepository>();
             builder.Services.AddScoped<IDbSeeder, DbSeeder>();
+            builder.Services.AddScoped<ILevelRepository, LevelRepository>();
+            builder.Services.AddScoped<IScoreRepository, ScoreRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+            builder.Services.AddHttpContextAccessor();
 
             WebApplication? app = builder.Build();
 
