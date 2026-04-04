@@ -8,6 +8,22 @@
 <div class="container mt-5">
     <div class="text-center mb-5">
         <h1 class="display-4 fw-bold text-white">🏆 ТОП ДЕТЕКТИВИ</h1>
+        <div class="row mb-4 justify-content-center">
+            <div class="col-md-6">
+                <form asp-action="Leaderboard" method="get" class="input-group shadow-sm">
+                    <input type="text"
+                           name="searchTerm"
+                           value="@ViewBag.SearchTerm"
+                           class="form-control bg-dark text-white border-secondary"
+                           placeholder="Търси детектив по име...">
+                    <button type="submit" class="btn btn-warning px-4">🔍 Търси</button>
+                    @if (!string.IsNullOrEmpty(ViewBag.SearchTerm))
+                    {
+                        <a asp-action="Leaderboard" class="btn btn-outline-secondary">❌ Изчисти</a>
+                    }
+                </form>
+            </div>
+        </div>
         <p class="text-light opacity-75">Най-бързите и наблюдателни играчи</p>
     </div>
 
@@ -26,7 +42,7 @@
                 </thead>
                 <tbody>
                     @{
-                        int rank = 1;
+                        int rank = ((ViewBag.CurrentPage - 1) * 10) + 1;
                     }
                     @foreach (var score in Model)
                     {
@@ -46,14 +62,39 @@
             </table>
         </div>
     </div>
+    <div class="d-flex justify-content-center align-items-center gap-3 mb-5">
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <a asp-action="Leaderboard" asp-route-page="@(ViewBag.CurrentPage - 1)"
+               asp-route-searchTerm="@ViewBag.SearchTerm"
+               class="btn btn-outline-warning px-4 shadow-sm">
+                &laquo; Предишна
+            </a>
+        }
+        else
+        {
+            <button class="btn btn-outline-secondary disabled px-4">&laquo; Предишна</button>
+        }
+
+        <div class="px-4 py-2 rounded-pill bg-dark border border-secondary text-white shadow-sm">
+            Страница <span class="fw-bold text-warning">@ViewBag.CurrentPage</span> от <span class="fw-bold">@ViewBag.TotalPages</span>
+        </div>
+
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <a asp-action="Leaderboard" asp-route-page="@(ViewBag.CurrentPage + 1)"
+               class="btn btn-outline-warning px-4 shadow-sm">
+                Следваща &raquo;
+            </a>
+        }
+        else
+        {
+            <button class="btn btn-outline-secondary disabled px-4">Следваща &raquo;</button>
+        }
+    </div>
 </div>
 
-<style>
-    .table-hover tbody tr:hover {
-        background-color: rgba(255, 255, 255, 0.1) !important;
+    @section Styles
+    {
+        <link rel="stylesheet" href="~/css/leaderboard.css" asp-append-version="true">
     }
-
-    .text-warning {
-        color: #ffc107 !important;
-    }
-</style>

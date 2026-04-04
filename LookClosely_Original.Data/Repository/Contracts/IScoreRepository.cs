@@ -5,7 +5,6 @@ namespace LookClosely_Original.Data.Repository.Contracts
 {
     public interface IScoreRepository
     {
-        Task<IEnumerable<Score>> GetAllScoresAsync();
         Task AddScoreAsync(Score score);
         Task<int> SaveChangeAsync();
         Task<Score?> GetScoreByUserAndLevelAsync(string userId, int levelId);

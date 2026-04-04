@@ -69,13 +69,20 @@ namespace LookClosely_Original.Services.Core
             }
         }
 
-        public async Task<IEnumerable<ScoreViewModel>> GetLeaderboardAsync()
+        public async Task<IEnumerable<ScoreViewModel>> GetPagedLeaderboardAsync(int page = 1, int pageSize = 10, string? searchTerm = null)
         {
             IQueryable<Score> scoresQuery = this.scoreRepository.GetAllScoresQuery();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                scoresQuery = scoresQuery.Where(s => s.User.UserName!.Contains(searchTerm));
+            }
 
             return await scoresQuery
                 .OrderByDescending(s => s.Points)
                 .ThenBy(s => s.TimeInSeconds)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
                 .Select(s => new ScoreViewModel
                 {
                     UserName = s.User.UserName ?? "Анонимен",
@@ -85,6 +92,18 @@ namespace LookClosely_Original.Services.Core
                     DateTime = s.DateTime
                 })
                 .ToListAsync();
+        }
+
+        public async Task<int> GetScoresCountAsync(string? searchTerm = null)
+        {
+            IQueryable<Score> query = this.scoreRepository.GetAllScoresQuery();
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                query = query.Where(s => s.User.UserName!.Contains(searchTerm));
+            }
+
+            return await query.CountAsync();
         }
     }
 }

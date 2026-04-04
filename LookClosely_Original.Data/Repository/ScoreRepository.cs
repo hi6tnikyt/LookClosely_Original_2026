@@ -9,14 +9,6 @@ public class ScoreRepository : BaseRepository, IScoreRepository
     public ScoreRepository(ApplicationDbContext dbContext) 
         : base(dbContext) { }
 
-    public async Task<IEnumerable<Score>> GetAllScoresAsync()
-    {
-        return await DbContext.Scores
-            .Include(s => s.User)
-            .Include(s => s.Level)
-            .AsNoTracking()
-            .ToListAsync();
-    }
 
     public async Task<Score?> GetScoreByUserAndLevelAsync(string userId, int levelId)
     {
@@ -27,7 +19,9 @@ public class ScoreRepository : BaseRepository, IScoreRepository
     public IQueryable<Score> GetAllScoresQuery()
     {
         return this.DbContext.Scores
-         .Include(s => s.User);
+            .Include(s => s.User)
+            .Include(s => s.Level) 
+            .AsNoTracking();
     }
 
     public async Task<bool> UpdateScoreAsync(Score score)

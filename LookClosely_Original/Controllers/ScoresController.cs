@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using LookClosely_Original.Services.Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using LookClosely_Original.LookCloselyViewModels;
 
 
 namespace LookClosely_Original.Controllers
@@ -15,10 +16,18 @@ namespace LookClosely_Original.Controllers
             this.scoreService = scoreService;
         }
 
-        public async Task<IActionResult> Leaderboard()
+        public async Task<IActionResult> Leaderboard(int page = 1, string? searchTerm = null)
         {
-            var topScores = await scoreService.GetTopScoresAsync(10);
-            return View(topScores);
+            const int pageSize = 10;
+
+            int totalScores = await scoreService.GetScoresCountAsync(searchTerm);
+            var scores = await scoreService.GetPagedLeaderboardAsync(page, pageSize, searchTerm);
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalScores / (double)pageSize);
+            ViewBag.SearchTerm = searchTerm;
+
+            return View(scores);
         }
     }
 }
