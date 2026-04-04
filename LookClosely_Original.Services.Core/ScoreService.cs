@@ -4,6 +4,7 @@ using LookClosely_Original.LookCloselyViewModels;
 using LookClosely_Original.Data.Models;
 using LookClosely_Original.Data.Repository.Contracts;
 using LookClosely_Original.GCommon.Exceptions;
+using static LookClosely_Original.GCommon.Exceptions.ErrorMessages;
 
 namespace LookClosely_Original.Services.Core
 {
@@ -36,6 +37,10 @@ namespace LookClosely_Original.Services.Core
 
         public async Task AddScoreAsync(int levelId, string userId, int points, int timeInSeconds)
         {
+            if (points < 0 || timeInSeconds < 0)
+            {
+                throw new EntityInputDataException(InvalidTime); 
+            }
             Score? existingScore = await this.scoreRepository.GetScoreByUserAndLevelAsync(userId, levelId);
 
             if (existingScore == null)

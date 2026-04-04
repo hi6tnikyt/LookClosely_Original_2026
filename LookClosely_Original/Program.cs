@@ -78,6 +78,8 @@ namespace LookClosely_Original
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseStatusCodePagesWithRedirects("/Home/StatusCodeError?code={0}");
+
             app.UseDbSeeder();
 
             app.MapControllerRoute(

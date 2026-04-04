@@ -21,7 +21,7 @@ namespace LookClosely_Original.Controllers
             const int pageSize = 10;
 
             int totalScores = await scoreService.GetScoresCountAsync(searchTerm);
-            var scores = await scoreService.GetPagedLeaderboardAsync(page, pageSize, searchTerm);
+            IEnumerable<ScoreViewModel> scores = await scoreService.GetPagedLeaderboardAsync(page, pageSize, searchTerm);
 
             ViewBag.CurrentPage = page;
             ViewBag.TotalPages = (int)Math.Ceiling(totalScores / (double)pageSize);

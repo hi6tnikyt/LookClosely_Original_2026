@@ -3,6 +3,7 @@ using LookClosely_Original.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using LookClosely_Original.Services.Core.Interfaces;
 using System.Security.Claims;
+using LookClosely_Original.GCommon.Exceptions;
 
 
 namespace LookClosely_Original.Controllers
@@ -39,17 +40,31 @@ namespace LookClosely_Original.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            await levelService.CreateLevelAsync(model);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await levelService.CreateLevelAsync(model);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (EntityInputDataException ex)
+            {
+                ModelState.AddModelError("Name", ex.Message);
+                return View(model);
+            }
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await levelService.GetLevelByIdAsync(id);
-            if (model == null) return NotFound();
-            return View(model);
+            try
+            {
+                var model = await levelService.GetLevelByIdAsync(id);
+                return View(model);
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         [Authorize(Roles = "Admin")]
@@ -70,7 +85,7 @@ namespace LookClosely_Original.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            catch (Exception ex)
+            catch (EntityEditPersistFailException ex)
             {
                 ModelState.AddModelError("", ex.Message);
                 return View(model);
@@ -81,27 +96,36 @@ namespace LookClosely_Original.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CheckClick(int levelId, double x, double y, int timeInSeconds)
         {
-            bool isHit = await levelService.CheckHitAsync(levelId, x, y);
-
-            if (isHit)
+            try
             {
-                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-
-                await scoreService.AddScoreAsync(levelId, userId, 100, timeInSeconds);
-
-                return Json(new { success = true, message = "Поздравления! Намери обекта!" });
+                bool isHit = await levelService.CheckHitAsync(levelId, x, y);
+                if (isHit)
+                {
+                    string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+                    await scoreService.AddScoreAsync(levelId, userId, 100, timeInSeconds);
+                    return Json(new { success = true, message = "Поздравления! Намери обекта!" });
+                }
+                return Json(new { success = false, message = "Опитай пак!" });
             }
-
-            return Json(new { success = false, message = "Опитай пак!" });
+            catch (Exception ex) 
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var model = await levelService.GetLevelByIdAsync(id);
-            if (model == null) return NotFound();
-            return View(model);
+            try
+            {
+                LevelViewModel? model = await levelService.GetLevelByIdAsync(id);
+                return View(model);
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound(); 
+            }
         }
 
         [Authorize(Roles = "Admin")]
@@ -109,16 +133,34 @@ namespace LookClosely_Original.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await levelService.DeleteLevelAsync(id);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await levelService.DeleteLevelAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
+            catch (EntityEditPersistFailException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var model = await levelService.GetLevelByIdAsync(id);
-            if (model == null) return NotFound();
-            return View(model);
+            try
+            {
+                LevelViewModel? model = await levelService.GetLevelByIdAsync(id);
+                return View(model);
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound();
+            }
         }
     }
 }

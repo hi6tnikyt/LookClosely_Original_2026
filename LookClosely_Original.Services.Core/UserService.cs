@@ -3,6 +3,7 @@ using LookClosely_Original.LookCloselyViewModels.Event;
 using LookClosely_Original.Services.Core.Interfaces;
 using LookClosely_Original.Data.Models;
 using LookClosely_Original.Data.Repository.Contracts;
+using LookClosely_Original.GCommon.Exceptions;
 
 namespace LookClosely_Original.Services.Core
 {
@@ -17,18 +18,25 @@ namespace LookClosely_Original.Services.Core
             this.userRepository = userRepository;
         }
 
-        public async Task<ApplicationUser?> GetUserProfileAsync(string userId)
+        public async Task<ApplicationUser> GetUserProfileAsync(string userId)
         {
-            return await userRepository.GetByIdWithScoresAsync(userId);
-                
+            ApplicationUser? user = await userRepository.GetByIdWithScoresAsync(userId);
+
+            if (user == null)
+            {
+                throw new EntityNotFoundException();
+            }
+
+            return user;
+
         }
 
-        public async Task<bool> UpdateUserProfileAsync(string userId, EditProfileViewModel model)
+        public async Task UpdateUserProfileAsync(string userId, EditProfileViewModel model)
         {
             ApplicationUser? user = await userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return false;
+                throw new EntityNotFoundException();
             }
 
 
@@ -54,7 +62,10 @@ namespace LookClosely_Original.Services.Core
             user.Bio = model.Bio;
             IdentityResult result = await userManager.UpdateAsync(user);
 
-            return result.Succeeded;
+            if (!result.Succeeded)
+            {
+                throw new EntityEditPersistFailException();
+            }
         }
     }
 }

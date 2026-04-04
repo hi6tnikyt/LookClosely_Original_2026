@@ -14,5 +14,7 @@ namespace LookClosely_Original.GCommon.Exceptions
         // General
         public const string UnexpectedError = "Възникна неочаквана грешка. Моля, опитайте пак.";
         public const string AccessDenied = "Нямате достъп до тази функционалност!";
+        public const string InvalidTime = "Времето не може да бъде отрицателно!";
+        public const string UpdateFailed = "Възникна грешка при опит за обновяване на данните в базата.";
     }
 }

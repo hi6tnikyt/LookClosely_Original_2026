@@ -3,6 +3,8 @@ using LookClosely_Original.Services.Core.Interfaces;
 using LookClosely_Original.ViewModels;
 using LookClosely_Original.Data.Repository.Contracts;
 using static LookClosely_Original.GCommon.Exceptions.ErrorMessages;
+using LookClosely_Original.GCommon.Exceptions;
+
 
 
 namespace LookClosely_Original.Services.Core
@@ -10,10 +12,12 @@ namespace LookClosely_Original.Services.Core
     public class LevelService : ILevelService
     {
         private readonly ILevelRepository levelRepository;
+        private readonly IScoreService scoreService;
 
-        public LevelService(ILevelRepository levelRepository)
+        public LevelService(ILevelRepository levelRepository, IScoreService scoreService)
         {
             this.levelRepository = levelRepository;
+            this.scoreService = scoreService;
         }
 
         public async Task<IEnumerable<LevelViewModel>> GetAllLevelsAsync()
@@ -43,7 +47,7 @@ namespace LookClosely_Original.Services.Core
 
             if (level == null || level.IsDeleted)
             {
-                return null;
+                throw new EntityNotFoundException();
             } 
 
             return new LevelViewModel
@@ -64,7 +68,7 @@ namespace LookClosely_Original.Services.Core
             IEnumerable<Level> existing = await levelRepository.GetAllLevelsAsync(l => l.Name == model.Name);
             if (existing.Any())
             {
-                throw new InvalidOperationException(LevelNameAlreadyExists);
+                throw new EntityInputDataException(LevelNameAlreadyExists);
             }
 
             Level level = new Level
@@ -87,22 +91,19 @@ namespace LookClosely_Original.Services.Core
 
             if (level == null || level.IsDeleted)
             {
-                return false;
-            } 
+                throw new EntityNotFoundException();
+            }
+
+            if (timeInSeconds < 0)
+            {
+                throw new EntityInputDataException(InvalidTime);
+            }
 
             double distance = Math.Sqrt(Math.Pow(x - level.TargetX, 2) + Math.Pow(y - level.TargetY, 2));
 
             if (distance <= level.TargetRadius)
             {
-                Score? score = new Score
-                {
-                    LevelId = levelId,
-                    UserId = userId,
-                    Points = 100,
-                    TimeInSeconds = timeInSeconds,
-                    DateTime = DateTime.Now
-                };
-
+                await scoreService.AddScoreAsync(levelId, userId, 100, timeInSeconds);
                 return true;
             }
 
@@ -127,7 +128,7 @@ namespace LookClosely_Original.Services.Core
 
             if (level == null || level.IsDeleted)
             {
-                throw new KeyNotFoundException(LevelNotFound);
+                throw new EntityNotFoundException();
             }
 
             level.Name = model.Name;
@@ -145,11 +146,13 @@ namespace LookClosely_Original.Services.Core
         {
             Level? level = await levelRepository.GetLevelByIdAsync(id);
 
-            if (level != null)
+            if (level == null || level.IsDeleted) 
             {
-                level.IsDeleted = true; 
-                await levelRepository.SaveChangeAsync();
+                throw new EntityNotFoundException();
             }
+
+            level.IsDeleted = true;
+            await levelRepository.SaveChangeAsync();
         }
 
         public async Task<bool> ExistsAsync(int id)

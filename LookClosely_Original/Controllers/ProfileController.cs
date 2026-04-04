@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using LookClosely_Original.LookCloselyViewModels.Event;
 using LookClosely_Original.Services.Core.Interfaces;
 using LookClosely_Original.Data.Models;
+using LookClosely_Original.GCommon.Exceptions;
 
 [Authorize]
 public class ProfileController : Controller
@@ -19,12 +20,17 @@ public class ProfileController : Controller
 
     public async Task<IActionResult> Index()
     {
-        string userId = userManager.GetUserId(User)!;
-        ApplicationUser? user = await userService.GetUserProfileAsync(userId);
+        try
+        {
+            string userId = userManager.GetUserId(User)!;
+            ApplicationUser user = await userService.GetUserProfileAsync(userId);
 
-        if (user == null) return NotFound();
-
-        return View(user);
+            return View(user);
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
     }
 
     [HttpGet]
@@ -45,18 +51,30 @@ public class ProfileController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(EditProfileViewModel model)
     {
-        if (!ModelState.IsValid) return View(model);
-
-        string userId = userManager.GetUserId(User)!;
-        bool success = await userService.UpdateUserProfileAsync(userId, model);
-
-        if (success)
+        if (!ModelState.IsValid)
         {
-            return RedirectToAction("Index");
+            return View(model);
         }
 
-        return View(model);
+        try
+        {
+            string userId = userManager.GetUserId(User)!;
+
+            await userService.UpdateUserProfileAsync(userId, model);
+
+            return RedirectToAction("Index");
+        }
+        catch (EntityNotFoundException)
+        {
+            return NotFound();
+        }
+        catch (EntityEditPersistFailException ex)
+        {
+            ModelState.AddModelError(string.Empty, ex.Message);
+            return View(model);
+        }
     }
 }

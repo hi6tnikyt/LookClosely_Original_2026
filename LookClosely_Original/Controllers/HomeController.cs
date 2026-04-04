@@ -23,6 +23,17 @@ namespace LookClosely_Original.Controllers
             return View();
         }
 
+        public IActionResult StatusCodeError(int code)
+        {
+            if (code == 404)
+            {
+                return View("NotFound"); 
+            }
+
+            ViewBag.ErrorCode = code;
+            return View("GeneralError");
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
