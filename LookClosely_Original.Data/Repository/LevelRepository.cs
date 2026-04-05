@@ -43,6 +43,12 @@ namespace LookClosely_Original.Data.Repository
             await SaveChangeAsync();
         }
 
+        public async Task UpdateAsync(Level level)
+        {
+            this.DbContext.Levels.Update(level);
+            await SaveChangeAsync();
+        }
+
         public new async Task<int> SaveChangeAsync()
         {
             return await base.SaveChangeAsync();

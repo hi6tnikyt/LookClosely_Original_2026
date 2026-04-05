@@ -1,0 +1,30 @@
+﻿@model LookClosely_Original.ViewModels.ErrorViewModel
+@{
+    ViewData["Title"] = "Възникна грешка";
+}
+
+<div class="container text-center mt-5 py-5">
+    <div class="p-5 mb-4 bg-light rounded-3 shadow-sm">
+        <h1 class="display-4 text-danger fw-bold">⚠️ Нещо се обърка</h1>
+        <p class="lead mt-3">Възникна неочаквана грешка при обработката на вашата заявка.</p>
+        <hr class="my-4">
+
+        @if (ViewBag.ErrorCode != null)
+        {
+                <div class="alert alert-warning d-inline-block px-4">
+                    <strong>Код на грешката:</strong> @ViewBag.ErrorCode
+                </div>
+        }
+
+        @if (Model?.ShowRequestId == true)
+        {
+                <p class="text-muted mt-2">
+                    <small>ID на заявката: <code>@Model.RequestId</code></small>
+                </p>
+        }
+
+        <div class="mt-4">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-dark btn-lg px-5">КЪМ НАЧАЛОТО</a>
+        </div>
+    </div>
+</div>
