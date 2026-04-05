@@ -185,7 +185,6 @@ namespace LookClosely_Original.Tests.Services
             AsyncTestDelegate action = async () => await levelService.CheckClickAsync(levelId, 100, 100, -1, "user123");
 
             // Assert
-            // Премахваме await и използваме var с ! накрая. Това е "магията".
             var exception = Assert.ThrowsAsync<EntityInputDataException>(action)!;
             Assert.That(exception.Message, Is.EqualTo(LookClosely_Original.GCommon.Exceptions.ErrorMessages.InvalidTime));
         }
