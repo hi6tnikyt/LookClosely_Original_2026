@@ -305,33 +305,33 @@ var assemblies = [
   {
     "name": "LookClosely_Original.Data.Models",
     "classes": [
-      { "name": "LookClosely_Original.Data.Models.ApplicationUser", "rp": "LookClosely_Original.Data.Models_ApplicationUser.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 21, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "LookClosely_Original.Data.Models.ApplicationUser", "rp": "LookClosely_Original.Data.Models_ApplicationUser.html", "cl": 2, "ucl": 3, "cal": 5, "tl": 21, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LookClosely_Original.Data.Models.Hint", "rp": "LookClosely_Original.Data.Models_Hint.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 20, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LookClosely_Original.Data.Models.Level", "rp": "LookClosely_Original.Data.Models_Level.html", "cl": 10, "ucl": 1, "cal": 11, "tl": 35, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "LookClosely_Original.Data.Models.Score", "rp": "LookClosely_Original.Data.Models_Score.html", "cl": 0, "ucl": 8, "cal": 8, "tl": 34, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "LookClosely_Original.Data.Models.Score", "rp": "LookClosely_Original.Data.Models_Score.html", "cl": 8, "ucl": 0, "cal": 8, "tl": 34, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LookClosely_Original.Data.Models.UserHint", "rp": "LookClosely_Original.Data.Models_UserHint.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 20, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
   {
     "name": "LookClosely_Original.GCommon",
     "classes": [
       { "name": "LookClosely_Original.GCommon.Exceptions.EntityAlreadyExistsException", "rp": "LookClosely_Original.GCommon_EntityAlreadyExistsException.html", "cl": 0, "ucl": 6, "cal": 6, "tl": 17, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "LookClosely_Original.GCommon.Exceptions.EntityEditPersistFailException", "rp": "LookClosely_Original.GCommon_EntityEditPersistFailException.html", "cl": 0, "ucl": 6, "cal": 6, "tl": 16, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "LookClosely_Original.GCommon.Exceptions.EntityEditPersistFailException", "rp": "LookClosely_Original.GCommon_EntityEditPersistFailException.html", "cl": 3, "ucl": 3, "cal": 6, "tl": 16, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LookClosely_Original.GCommon.Exceptions.EntityInputDataException", "rp": "LookClosely_Original.GCommon_EntityInputDataException.html", "cl": 1, "ucl": 1, "cal": 2, "tl": 12, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LookClosely_Original.GCommon.Exceptions.EntityNotFoundException", "rp": "LookClosely_Original.GCommon_EntityNotFoundException.html", "cl": 1, "ucl": 1, "cal": 2, "tl": 12, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
   {
     "name": "LookClosely_Original.Services.Core",
     "classes": [
-      { "name": "LookClosely_Original.Services.Core.LevelService", "rp": "LookClosely_Original.Services.Core_LevelService.html", "cl": 77, "ucl": 31, "cal": 108, "tl": 167, "cb": 14, "tb": 26, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "LookClosely_Original.Services.Core.ScoreService", "rp": "LookClosely_Original.Services.Core_ScoreService.html", "cl": 0, "ucl": 79, "cal": 79, "tl": 114, "cb": 0, "tb": 14, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "LookClosely_Original.Services.Core.UserService", "rp": "LookClosely_Original.Services.Core_UserService.html", "cl": 0, "ucl": 38, "cal": 38, "tl": 71, "cb": 0, "tb": 14, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "LookClosely_Original.Services.Core.LevelService", "rp": "LookClosely_Original.Services.Core_LevelService.html", "cl": 79, "ucl": 29, "cal": 108, "tl": 167, "cb": 16, "tb": 26, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "LookClosely_Original.Services.Core.ScoreService", "rp": "LookClosely_Original.Services.Core_ScoreService.html", "cl": 63, "ucl": 16, "cal": 79, "tl": 114, "cb": 11, "tb": 14, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "LookClosely_Original.Services.Core.UserService", "rp": "LookClosely_Original.Services.Core_UserService.html", "cl": 22, "ucl": 16, "cal": 38, "tl": 71, "cb": 6, "tb": 14, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
   {
     "name": "LookClosely_Original.ViewModels",
     "classes": [
-      { "name": "LookClosely_Original.LookCloselyViewModels.Event.EditProfileViewModel", "rp": "LookClosely_Original.ViewModels_EditProfileViewModel.html", "cl": 0, "ucl": 3, "cal": 3, "tl": 17, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "LookClosely_Original.LookCloselyViewModels.Event.EditProfileViewModel", "rp": "LookClosely_Original.ViewModels_EditProfileViewModel.html", "cl": 2, "ucl": 1, "cal": 3, "tl": 17, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LookClosely_Original.LookCloselyViewModels.Event.ProfileViewModel", "rp": "LookClosely_Original.ViewModels_ProfileViewModel.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 22, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "LookClosely_Original.LookCloselyViewModels.ScoreViewModel", "rp": "LookClosely_Original.ViewModels_ScoreViewModel.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 16, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "LookClosely_Original.LookCloselyViewModels.ScoreViewModel", "rp": "LookClosely_Original.ViewModels_ScoreViewModel.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 16, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LookClosely_Original.ViewModels.ErrorViewModel", "rp": "LookClosely_Original.ViewModels_ErrorViewModel.html", "cl": 0, "ucl": 2, "cal": 2, "tl": 9, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LookClosely_Original.ViewModels.LevelViewModel", "rp": "LookClosely_Original.ViewModels_LevelViewModel.html", "cl": 8, "ucl": 0, "cal": 8, "tl": 34, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
@@ -350,14 +350,8 @@ var riskHotspots = [
   {
     "assembly": "LookClosely_Original.Services.Core", "class": "LookClosely_Original.Services.Core.UserService", "reportPath": "LookClosely_Original.Services.Core_UserService.html", "methodName": "UpdateUserProfileAsync()", "methodShortName": "UpdateUserProfileAsync()", "fileIndex": 0, "line": 35,
     "metrics": [
-      { "value": 156, "exceeded": true },
+      { "value": 46, "exceeded": true },
       { "value": 12, "exceeded": false },
-    ]},
-  {
-    "assembly": "LookClosely_Original.Services.Core", "class": "LookClosely_Original.Services.Core.ScoreService", "reportPath": "LookClosely_Original.Services.Core_ScoreService.html", "methodName": "AddScoreAsync()", "methodShortName": "AddScoreAsync()", "fileIndex": 0, "line": 39,
-    "metrics": [
-      { "value": 110, "exceeded": true },
-      { "value": 10, "exceeded": false },
     ]},
 ];
 
