@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Страницата не е намерена";
+}
+
+<div class="container text-center mt-5 py-5">
+    <div class="error-template">
+        <h1 class="display-1 fw-bold text-primary">404</h1>
+        <h2 class="mb-3">Упс! Изглежда си се изгубил.</h2>
+        <div class="error-details mb-4">
+            Съжаляваме, но страницата, която търсиш, не съществува или е била преместена.
+        </div>
+        <div class="error-actions">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg shadow-sm">
+                <span class="glyphicon glyphicon-home"></span>
+                ВЪРНИ СЕ В НАЧАЛОТО
+            </a>
+            <a asp-controller="Levels" asp-action="Index" class="btn btn-outline-secondary btn-lg ms-2">
+                КЪМ НИВАТА
+            </a>
+        </div>
+    </div>
+</div>

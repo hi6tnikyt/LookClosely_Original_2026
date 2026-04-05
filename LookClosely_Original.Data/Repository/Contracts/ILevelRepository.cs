@@ -10,6 +10,7 @@ namespace LookClosely_Original.Data.Repository.Contracts
         Expression<Func<Level, Level>>? projectionQuery = null);
         Task<Level?> GetLevelByIdAsync(int id);
         Task AddAsync(Level level);
+        Task UpdateAsync(Level level);
         Task<int> SaveChangeAsync();
     }
 }

@@ -139,6 +139,7 @@ namespace LookClosely_Original.Services.Core
             level.TargetY = model.TargetY;
             level.TargetRadius = model.TargetRadius;
 
+            await levelRepository.UpdateAsync(level);
             await levelRepository.SaveChangeAsync();
         }
 
@@ -152,6 +153,8 @@ namespace LookClosely_Original.Services.Core
             }
 
             level.IsDeleted = true;
+
+            await levelRepository.UpdateAsync(level);
             await levelRepository.SaveChangeAsync();
         }
 
