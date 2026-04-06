@@ -12,5 +12,6 @@ namespace LookClosely_Original.Services.Core.Interfaces
         Task<bool> ExistsAsync(int id);
         Task<bool> CheckHitAsync(int levelId, double x, double y);
         Task<bool> CheckClickAsync(int levelId, double x, double y, int timeInSeconds, string userId);
+        int CalculateScore(int timeInSeconds);
     }
 }

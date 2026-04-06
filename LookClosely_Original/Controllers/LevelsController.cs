@@ -102,8 +102,11 @@ namespace LookClosely_Original.Controllers
                 if (isHit)
                 {
                     string userId = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
-                    await scoreService.AddScoreAsync(levelId, userId, 100, timeInSeconds);
-                    return Json(new { success = true, message = "Поздравления! Намери обекта!" });
+
+                    int points = levelService.CalculateScore(timeInSeconds);
+
+                    await scoreService.AddScoreAsync(levelId, userId, points, timeInSeconds);
+                    return Json(new { success = true, message = "Поздравления! Намери обекта!", points = points });
                 }
                 return Json(new { success = false, message = "Опитай пак!" });
             }

@@ -1,4 +1,4 @@
-Look Closely - ASP.NET Core Project
+﻿Look Closely - ASP.NET Core Project
 
    Project Overview
 
@@ -81,6 +81,56 @@ Testing Suite: Built using NUnit and Moq to simulate repository dependencies and
 Validation: Both client-side (jQuery Validation) and server-side (Data Annotations) validations are implemented to prevent invalid data entry.
 
 	 
+4. Architecture & Design Decisions
+The application is built with a focus on Clean Architecture, ensuring strong cohesion and loose coupling:
+
+Multilayered Structure:
+
+Web Layer: ASP.NET Core MVC with dedicated Areas (e.g., Administration) to separate user and admin concerns.
+
+Services Layer (Core): Contains the business logic, fully isolated from the controllers for better testability.
+
+Repository Layer: Implements the Repository Pattern to abstract the data access logic from the business services.
+
+Data Layer: Manages the Entity Framework Core context, migrations, and model configurations.
+
+Dependency Injection (DI): Utilizes the built-in ASP.NET Core DI container for all services and repositories.
+
+OOP Principles: Proper use of encapsulation, inheritance, and abstraction throughout the codebase.	 
+	
+	Key Features
+	
+Advanced Leaderboard: Features a real-time global ranking system with implemented Search and Pagination functionalities for optimized data display.
+
+Identity & Security: Uses the standard ASP.NET Identity system for managing Users and Roles (User/Administrator).
+
+Level Management: Full CRUD operations for game levels, including image asset management for hidden objects.
+
+Custom Error Handling: Includes specialized views for 404 Not Found and 500 Internal Server Error to ensure a smooth user experience.
+
+Automatic Data Seeding: A robust DbSeeder ensures the database is pre-populated with essential roles, an admin user, and initial game levels upon startup.
+
+     Unit Testing & Quality Assurance
+
+	 Business logic reliability is guaranteed through extensive testing:
+
+Coverage: Achieved over 65% code coverage for the service layer logic.
+
+Testing Suite: Built using NUnit and Moq to simulate repository dependencies and test edge cases (e.g., EntityNotFoundException).
+
+Validation: Both client-side (jQuery Validation) and server-side (Data Annotations) validations are implemented to prevent invalid data entry.
+
+  ## 📸 Скрийншоти
+
+### Home Page
+![Home Page](screenshots/Home.png)
+
+### Levels Page
+![Levels Page](screenshots/Levels.png)
+
+### Leaderboard
+![Leaderboard](screenshots/leaderboard.png)
+
 --   Author
 [Dimitar]
 
