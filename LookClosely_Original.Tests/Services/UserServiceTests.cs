@@ -6,6 +6,8 @@ using LookClosely_Original.Data.Repository.Contracts;
 using LookClosely_Original.Data.Models;
 using LookClosely_Original.GCommon.Exceptions;
 using LookClosely_Original.LookCloselyViewModels.Event;
+using Microsoft.AspNetCore.Http;
+using System.Text;
 
 namespace LookClosely_Original.Tests.Services
 {
@@ -25,6 +27,12 @@ namespace LookClosely_Original.Tests.Services
             mockUserManager = new Mock<UserManager<ApplicationUser>>(store.Object, null, null, null, null, null, null, null, null);
 
             userService = new UserService(mockUserManager.Object, mockUserRepo.Object);
+
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "wwwroot", "images", "avatars");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
         }
 
         [Test]
@@ -47,10 +55,15 @@ namespace LookClosely_Original.Tests.Services
         public void GetUserProfileAsync_ThrowsException_WhenUserDoesNotExist()
         {
             // Arrange
-            mockUserRepo.Setup(r => r.GetByIdWithScoresAsync(It.IsAny<string>())).ReturnsAsync((ApplicationUser)null);
+            var userId = "wrong-id";
+            mockUserRepo.Setup(r => r.GetByIdWithScoresAsync(userId))
+                        .ReturnsAsync((ApplicationUser)null);
 
-            // Act & Assert
-            Assert.ThrowsAsync<EntityNotFoundException>(() => userService.GetUserProfileAsync("wrong-id"));
+            // Act
+            Func<Task> act = async () => await userService.GetUserProfileAsync(userId);
+
+            // Assert
+            Assert.ThrowsAsync<EntityNotFoundException>(async () => await act());
         }
 
         [Test]
@@ -74,6 +87,20 @@ namespace LookClosely_Original.Tests.Services
         }
 
         [Test]
+        public void UpdateUserProfileAsync_ThrowsException_WhenUserNotFound()
+        {
+            // Arrange
+            var userId = "non-existent";
+            mockUserManager.Setup(m => m.FindByIdAsync(userId)).ReturnsAsync((ApplicationUser)null);
+
+            // Act
+            Func<Task> act = async () => await userService.UpdateUserProfileAsync(userId, new EditProfileViewModel());
+
+            // Assert
+            Assert.ThrowsAsync<EntityNotFoundException>(async () => await act());
+        }
+
+        [Test]
         public void UpdateUserProfileAsync_ThrowsException_WhenUpdateFails()
         {
             // Arrange
@@ -82,12 +109,48 @@ namespace LookClosely_Original.Tests.Services
             var model = new EditProfileViewModel { Bio = "Bio" };
 
             mockUserManager.Setup(m => m.FindByIdAsync(userId)).ReturnsAsync(user);
-
             mockUserManager.Setup(m => m.UpdateAsync(user))
                            .ReturnsAsync(IdentityResult.Failed(new IdentityError { Description = "Error" }));
 
-            // Act & Assert
-            Assert.ThrowsAsync<EntityEditPersistFailException>(() => userService.UpdateUserProfileAsync(userId, model));
+            // Act
+            Func<Task> act = async () => await userService.UpdateUserProfileAsync(userId, model);
+
+            // Assert
+            Assert.ThrowsAsync<EntityEditPersistFailException>(async () => await act());
+        }
+
+        [Test]
+        public async Task UpdateUserProfileAsync_UpdatesAvatar_WhenNewFileIsProvided()
+        {
+            // Arrange
+            var userId = "user-123";
+            var user = new ApplicationUser { Id = userId, AvatarPath = "old-photo.jpg" };
+
+            var content = "fake-image-content";
+            var fileName = "new-avatar.png";
+            var ms = new MemoryStream(Encoding.UTF8.GetBytes(content));
+            var mockFile = new Mock<IFormFile>();
+            mockFile.Setup(_ => _.OpenReadStream()).Returns(ms);
+            mockFile.Setup(_ => _.FileName).Returns(fileName);
+            mockFile.Setup(_ => _.Length).Returns(ms.Length);
+
+            var model = new EditProfileViewModel
+            {
+                Bio = "Updated Bio",
+                AvatarFile = mockFile.Object
+            };
+
+            mockUserManager.Setup(m => m.FindByIdAsync(userId)).ReturnsAsync(user);
+            mockUserManager.Setup(m => m.UpdateAsync(It.IsAny<ApplicationUser>()))
+                           .ReturnsAsync(IdentityResult.Success);
+
+            // Act
+            await userService.UpdateUserProfileAsync(userId, model);
+
+            // Assert
+            Assert.That(user.AvatarPath, Does.Contain(".png"));
+            Assert.That(user.AvatarPath, Is.Not.EqualTo("old-photo.jpg"));
+            mockUserManager.Verify(m => m.UpdateAsync(user), Times.Once);
         }
     }
 }
