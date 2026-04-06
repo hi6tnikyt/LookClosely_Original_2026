@@ -129,7 +129,7 @@ Validation: Both client-side (jQuery Validation) and server-side (Data Annotatio
 ![Levels Page](screenshots/Levels.png)
 
 ### Leaderboard
-![Leaderboard](screenshots/leaderboard.png)
+![Leaderboard](screenshots/Leaderboard.png)
 
 --   Author
 [Dimitar]
