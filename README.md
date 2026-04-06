@@ -1,4 +1,4 @@
-Look Closely - ASP.NET Core Project
+﻿Look Closely - ASP.NET Core Project
 
    Project Overview
 
@@ -6,17 +6,17 @@ Look Closely - ASP.NET Core Project
 
  --  Key Features
 
-�	Level Management: Full CRUD operations (Create, Read, Update, Delete) for game levels.
-�	Leaderboard: A global ranking system displaying the top 10 players based on their performance.
-�	User Profiles: Personalized profile pages featuring user bios and score history.
-�	Security & Roles: Role-based access control, ensuring administrative functions are restricted to "Admin" users.
+•	Level Management: Full CRUD operations (Create, Read, Update, Delete) for game levels.
+•	Leaderboard: A global ranking system displaying the top 10 players based on their performance.
+•	User Profiles: Personalized profile pages featuring user bios and score history.
+•	Security & Roles: Role-based access control, ensuring administrative functions are restricted to "Admin" users.
 
  --  Technologies
-�	ASP.NET Core 8.0 (MVC Architecture)
-�	Entity Framework Core
-�	MS SQL Server
-�	ASP.NET Core Identity (Authentication & Authorization)
-�	Bootstrap 5 (Responsive UI Design)
+•	ASP.NET Core 8.0 (MVC Architecture)
+•	Entity Framework Core
+•	MS SQL Server
+•	ASP.NET Core Identity (Authentication & Authorization)
+•	Bootstrap 5 (Responsive UI Design)
 
 --   Setup and Installation
 
@@ -80,6 +80,16 @@ Testing Suite: Built using NUnit and Moq to simulate repository dependencies and
 
 Validation: Both client-side (jQuery Validation) and server-side (Data Annotations) validations are implemented to prevent invalid data entry.
 
+  ## 📸 Скрийншоти
+
+### Home Page
+![Home Page](screenshots/Home.png)
+
+### Levels Page
+![Levels Page](screenshots/Levels.png)
+
+### Leaderboard
+![Leaderboard](screenshots/leaderboard.png)
 
 --   Author
 [Dimitar]

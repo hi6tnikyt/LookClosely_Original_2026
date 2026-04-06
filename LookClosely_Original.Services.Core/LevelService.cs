@@ -163,5 +163,12 @@ namespace LookClosely_Original.Services.Core
             IEnumerable<Level> levels = await levelRepository.GetAllLevelsAsync(l => l.Id == id && !l.IsDeleted);
             return levels.Any();
         }
+
+        public int CalculateScore(int timeInSeconds)
+        {
+            int points = 100 - Math.Max(0, timeInSeconds - 10);
+
+            return Math.Max(10, points);
+        }
     }
 }
