@@ -1,126 +1,48 @@
-﻿Look Closely - ASP.NET Core Project
+# 🔍 Look Closely - ASP.NET Core Project
 
-   Project Overview
+## 📖 Project Overview
+**"Look Closely"** is a web-based hidden object game developed as a project for the ASP.NET Fundamentals course at SoftUni. The application allows users to explore various levels, find hidden objects, and compete for the highest scores.
 
-"Look Closely" is a web-based hidden object game developed as a project for the ASP.NET Fundamentals course at SoftUni. The application allows users to explore various levels, find hidden objects, and compete for the highest scores.
+---
 
- --  Key Features
+## 🚀 Key Features
+* **Advanced Leaderboard:** Real-time global ranking system with search and pagination.
+* **Level Management:** Full CRUD operations for game levels and hidden object assets.
+* **Identity & Security:** Role-based access control (Admin/User) using ASP.NET Core Identity.
+* **Custom Error Handling:** Specialized views for 404 and 500 errors.
+* **Automatic Data Seeding:** DbSeeder for roles, admin user, and initial game content.
 
-•	Level Management: Full CRUD operations (Create, Read, Update, Delete) for game levels.
-•	Leaderboard: A global ranking system displaying the top 10 players based on their performance.
-•	User Profiles: Personalized profile pages featuring user bios and score history.
-•	Security & Roles: Role-based access control, ensuring administrative functions are restricted to "Admin" users.
+---
 
- --  Technologies
-•	ASP.NET Core 8.0 (MVC Architecture)
-•	Entity Framework Core
-•	MS SQL Server
-•	ASP.NET Core Identity (Authentication & Authorization)
-•	Bootstrap 5 (Responsive UI Design)
+## 🛠 Technologies
+* **Framework:** ASP.NET Core 8.0 (MVC)
+* **Database:** MS SQL Server with Entity Framework Core
+* **Auth:** ASP.NET Core Identity
+* **UI:** Bootstrap 5 (Responsive Design)
+* **Testing:** NUnit & Moq
 
---   Setup and Installation
+---
 
-1.	Clone the repository:
-Bash
-git clone https://github.com/hi6tnikyt/LookClosely_Original_2026
-Database Configuration:
-	Update appsettings.json or use User Secrets to provide your connection string:
-	 
- --   JSON
+## 🏗 Architecture & Design Decisions
+The application follows **Clean Architecture** principles to ensure loose coupling and high maintainability:
 
-"ConnectionStrings": {
-  "DefaultConnection": "Server=YOUR_SERVER;Database=LookCloselyOriginal;Trusted_Connection=True;MultipleActiveResultSets=true"
-}
+1.  **Web Layer:** MVC with dedicated **Areas** (e.g., Administration).
+2.  **Services Layer (Core):** Contains the business logic, isolated for better testability.
+3.  **Repository Layer:** Implements the **Repository Pattern** to abstract data access.
+4.  **Data Layer:** Manages EF Core context and migrations.
+5.  **DI & OOP:** Full use of Dependency Injection and core OOP principles.
 
-2.	Apply Migrations: Run the following command in the Package Manager Console:
-PowerShell
-Update-Database
-Or using .NET CLI:
-Bash
-dotnet ef database update
-3.	Run the Project:
-	Press F5 in Visual Studio or run dotnet run in the terminal.
+---
 
-4. Architecture & Design Decisions
-The application is built with a focus on Clean Architecture, ensuring strong cohesion and loose coupling:
+## 🧪 Unit Testing & Quality Assurance
+Business logic reliability is guaranteed through extensive testing:
+* **Coverage:** Achieved over **65% code coverage** for the service layer.
+* **Testing Suite:** Built using **NUnit** and **Moq** to test edge cases like `EntityNotFoundException`.
+* **Validation:** Dual-layer validation (jQuery client-side & Data Annotations server-side).
 
-Multilayered Structure:
+---
 
-Web Layer: ASP.NET Core MVC with dedicated Areas (e.g., Administration) to separate user and admin concerns.
-
-Services Layer (Core): Contains the business logic, fully isolated from the controllers for better testability.
-
-Repository Layer: Implements the Repository Pattern to abstract the data access logic from the business services.
-
-Data Layer: Manages the Entity Framework Core context, migrations, and model configurations.
-
-Dependency Injection (DI): Utilizes the built-in ASP.NET Core DI container for all services and repositories.
-
-OOP Principles: Proper use of encapsulation, inheritance, and abstraction throughout the codebase.	 
-	
-	Key Features
-	
-Advanced Leaderboard: Features a real-time global ranking system with implemented Search and Pagination functionalities for optimized data display.
-
-Identity & Security: Uses the standard ASP.NET Identity system for managing Users and Roles (User/Administrator).
-
-Level Management: Full CRUD operations for game levels, including image asset management for hidden objects.
-
-Custom Error Handling: Includes specialized views for 404 Not Found and 500 Internal Server Error to ensure a smooth user experience.
-
-Automatic Data Seeding: A robust DbSeeder ensures the database is pre-populated with essential roles, an admin user, and initial game levels upon startup.
-
-     Unit Testing & Quality Assurance
-
-	 Business logic reliability is guaranteed through extensive testing:
-
-Coverage: Achieved over 65% code coverage for the service layer logic.
-
-Testing Suite: Built using NUnit and Moq to simulate repository dependencies and test edge cases (e.g., EntityNotFoundException).
-
-Validation: Both client-side (jQuery Validation) and server-side (Data Annotations) validations are implemented to prevent invalid data entry.
-
-	 
-4. Architecture & Design Decisions
-The application is built with a focus on Clean Architecture, ensuring strong cohesion and loose coupling:
-
-Multilayered Structure:
-
-Web Layer: ASP.NET Core MVC with dedicated Areas (e.g., Administration) to separate user and admin concerns.
-
-Services Layer (Core): Contains the business logic, fully isolated from the controllers for better testability.
-
-Repository Layer: Implements the Repository Pattern to abstract the data access logic from the business services.
-
-Data Layer: Manages the Entity Framework Core context, migrations, and model configurations.
-
-Dependency Injection (DI): Utilizes the built-in ASP.NET Core DI container for all services and repositories.
-
-OOP Principles: Proper use of encapsulation, inheritance, and abstraction throughout the codebase.	 
-	
-	Key Features
-	
-Advanced Leaderboard: Features a real-time global ranking system with implemented Search and Pagination functionalities for optimized data display.
-
-Identity & Security: Uses the standard ASP.NET Identity system for managing Users and Roles (User/Administrator).
-
-Level Management: Full CRUD operations for game levels, including image asset management for hidden objects.
-
-Custom Error Handling: Includes specialized views for 404 Not Found and 500 Internal Server Error to ensure a smooth user experience.
-
-Automatic Data Seeding: A robust DbSeeder ensures the database is pre-populated with essential roles, an admin user, and initial game levels upon startup.
-
-     Unit Testing & Quality Assurance
-
-	 Business logic reliability is guaranteed through extensive testing:
-
-Coverage: Achieved over 65% code coverage for the service layer logic.
-
-Testing Suite: Built using NUnit and Moq to simulate repository dependencies and test edge cases (e.g., EntityNotFoundException).
-
-Validation: Both client-side (jQuery Validation) and server-side (Data Annotations) validations are implemented to prevent invalid data entry.
-
-  ## 📸 Скрийншоти
+## 📸 Скрийншоти
 
 ### Home Page
 ![Home Page](screenshots/Home.png)
@@ -131,8 +53,10 @@ Validation: Both client-side (jQuery Validation) and server-side (Data Annotatio
 ### Leaderboard
 ![Leaderboard](screenshots/Leaderboard.png)
 
---   Author
-[Dimitar]
+---
 
+## ⚙️ Setup and Installation
 
-
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/hi6tnikyt/LookClosely_Original_2026](https://github.com/hi6tnikyt/LookClosely_Original_2026)
