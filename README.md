@@ -42,7 +42,7 @@ Business logic reliability is guaranteed through extensive testing:
 
 ---
 
-## 📸 Скрийншоти
+## 📸 Screenshots
 
 ### Home Page
 ![Home Page](screenshots/Home.png)
