@@ -55,6 +55,14 @@ Business logic reliability is guaranteed through extensive testing:
 
 ---
 
+# Look Closely 🔍
+
+[![Look Closely Demo](https://img.youtube.com/vi/ODkMyuAXHSQ/maxresdefault.jpg)](https://www.youtube.com/watch?v=ODkMyuAXHSQ)
+
+*Кликнете върху изображението по-горе, за да гледате демо на проекта.*
+
+---
+
 ## ⚙️ Setup and Installation
 
 1. **Clone the repository:**
