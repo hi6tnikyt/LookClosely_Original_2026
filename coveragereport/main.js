@@ -305,8 +305,8 @@ var assemblies = [
   {
     "name": "LookClosely_Original.Data.Models",
     "classes": [
-      { "name": "LookClosely_Original.Data.Models.ApplicationUser", "rp": "LookClosely_Original.Data.Models_ApplicationUser.html", "cl": 2, "ucl": 3, "cal": 5, "tl": 21, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "LookClosely_Original.Data.Models.Hint", "rp": "LookClosely_Original.Data.Models_Hint.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 20, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "LookClosely_Original.Data.Models.ApplicationUser", "rp": "LookClosely_Original.Data.Models_ApplicationUser.html", "cl": 3, "ucl": 2, "cal": 5, "tl": 21, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "LookClosely_Original.Data.Models.Hint", "rp": "LookClosely_Original.Data.Models_Hint.html", "cl": 4, "ucl": 1, "cal": 5, "tl": 20, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LookClosely_Original.Data.Models.Level", "rp": "LookClosely_Original.Data.Models_Level.html", "cl": 10, "ucl": 1, "cal": 11, "tl": 35, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LookClosely_Original.Data.Models.Score", "rp": "LookClosely_Original.Data.Models_Score.html", "cl": 8, "ucl": 0, "cal": 8, "tl": 34, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LookClosely_Original.Data.Models.UserHint", "rp": "LookClosely_Original.Data.Models_UserHint.html", "cl": 0, "ucl": 5, "cal": 5, "tl": 20, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
@@ -314,7 +314,7 @@ var assemblies = [
   {
     "name": "LookClosely_Original.GCommon",
     "classes": [
-      { "name": "LookClosely_Original.GCommon.Exceptions.EntityAlreadyExistsException", "rp": "LookClosely_Original.GCommon_EntityAlreadyExistsException.html", "cl": 0, "ucl": 6, "cal": 6, "tl": 17, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "LookClosely_Original.GCommon.Exceptions.EntityAlreadyExistsException", "rp": "LookClosely_Original.GCommon_EntityAlreadyExistsException.html", "cl": 3, "ucl": 3, "cal": 6, "tl": 17, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LookClosely_Original.GCommon.Exceptions.EntityEditPersistFailException", "rp": "LookClosely_Original.GCommon_EntityEditPersistFailException.html", "cl": 3, "ucl": 3, "cal": 6, "tl": 16, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LookClosely_Original.GCommon.Exceptions.EntityInputDataException", "rp": "LookClosely_Original.GCommon_EntityInputDataException.html", "cl": 1, "ucl": 1, "cal": 2, "tl": 12, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LookClosely_Original.GCommon.Exceptions.EntityNotFoundException", "rp": "LookClosely_Original.GCommon_EntityNotFoundException.html", "cl": 1, "ucl": 1, "cal": 2, "tl": 12, "cb": 0, "tb": 0, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
@@ -322,9 +322,9 @@ var assemblies = [
   {
     "name": "LookClosely_Original.Services.Core",
     "classes": [
-      { "name": "LookClosely_Original.Services.Core.LevelService", "rp": "LookClosely_Original.Services.Core_LevelService.html", "cl": 79, "ucl": 29, "cal": 108, "tl": 167, "cb": 16, "tb": 26, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "LookClosely_Original.Services.Core.LevelService", "rp": "LookClosely_Original.Services.Core_LevelService.html", "cl": 79, "ucl": 33, "cal": 112, "tl": 174, "cb": 16, "tb": 26, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
       { "name": "LookClosely_Original.Services.Core.ScoreService", "rp": "LookClosely_Original.Services.Core_ScoreService.html", "cl": 63, "ucl": 16, "cal": 79, "tl": 114, "cb": 11, "tb": 14, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
-      { "name": "LookClosely_Original.Services.Core.UserService", "rp": "LookClosely_Original.Services.Core_UserService.html", "cl": 22, "ucl": 16, "cal": 38, "tl": 71, "cb": 6, "tb": 14, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
+      { "name": "LookClosely_Original.Services.Core.UserService", "rp": "LookClosely_Original.Services.Core_UserService.html", "cl": 38, "ucl": 0, "cal": 38, "tl": 71, "cb": 12, "tb": 14, "cm": 0, "fcm": 0, "tm": 0, "lch": [], "bch": [], "mch": [], "mfch": [], "hc": [], "metrics": { } },
     ]},
   {
     "name": "LookClosely_Original.ViewModels",
@@ -342,17 +342,9 @@ var metrics = [{ "name": "Crap Score", "abbreviation": "crp", "explanationUrl": 
 var historicCoverageExecutionTimes = [];
 
 var riskHotspotMetrics = [
-      { "name": "Crap Score", "explanationUrl": "https://googletesting.blogspot.de/2011/02/this-code-is-crap.html" },
-      { "name": "Cyclomatic complexity", "explanationUrl": "https://en.wikipedia.org/wiki/Cyclomatic_complexity" },
 ];
 
 var riskHotspots = [
-  {
-    "assembly": "LookClosely_Original.Services.Core", "class": "LookClosely_Original.Services.Core.UserService", "reportPath": "LookClosely_Original.Services.Core_UserService.html", "methodName": "UpdateUserProfileAsync()", "methodShortName": "UpdateUserProfileAsync()", "fileIndex": 0, "line": 35,
-    "metrics": [
-      { "value": 46, "exceeded": true },
-      { "value": 12, "exceeded": false },
-    ]},
 ];
 
 var branchCoverageAvailable = true;
